@@ -29,7 +29,7 @@ def analyse_pairs(line1, line2):
     return keep, discard
 
 
-def analyse_prog_file(filepath, )
+def analyse_prog_file(filepath, ):
     ''' go through entire prog_cod_dup file '''
     keep_list,discard_list = [],[]
     
