@@ -51,7 +51,7 @@ def analyse_desig_file(filepath, )
             print('Discard',discard)
             print()
             keep_list.append(keep)
-            discard_list.append(keep)
+            discard_list.append(discard)
 
     # check results
     len(discard_list) == len(keep_list) == len(data)/2
