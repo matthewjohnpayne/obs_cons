@@ -14,8 +14,8 @@ import query_ids as dbq
 def analyse_pairs(line1, line2, QCID):
 
     # Get the designation part
-    desig1 = line1[:13].strip()
-    desig2 = line2[:13].strip()
+    desig1 = line1[:12].strip()
+    desig2 = line2[:12].strip()
     assert desig1 != desig2
     print(desig1 , desig2)
     # Look up the primary designations in the database
