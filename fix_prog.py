@@ -34,7 +34,8 @@ def analyse_prog_file(filepath, ):
     keep_list,discard_list = [],[]
     
     # read file contents
-    with open(filepath, 'r') as fh: data = fh.readlines()
+    with open(filepath, 'r') as fh:
+        data = [_.strip() for _ fh.readlines()]
     
     # check file contents
     assert len(data)  % 2 == 0
