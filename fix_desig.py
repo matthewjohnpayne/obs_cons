@@ -36,7 +36,7 @@ def analyse_pairs(line1, line2):
     
     return keep, discard
 
-def analyse_desig_file(filepath, )
+def analyse_desig_file(filepath, ):
     ''' go through entire diff_desig file '''
     keep_list,discard_list = [],[]
 
