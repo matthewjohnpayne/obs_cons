@@ -7,6 +7,7 @@ I assume that output files have been created that include ...
 prog_cod_dup
 
 '''
+import os, sys
 
 def analyse_pairs(line1, line2):
 
@@ -77,6 +78,6 @@ def remove_discards(filepath , discard_list):
 if __name__ == '__main__':
 
     # Analyse prog_cod_dup file
-    analyse_prog_file(sys.argv[1])
+    analyse_prog_file( sys.argv[1] )
 
 
