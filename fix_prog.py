@@ -38,7 +38,7 @@ def analyse_prog_file(filepath, ):
     
     # check file contents
     assert len(data)  % 2 == 0
-    for i, line in data[:-1] :
+    for i, line in enumerate(data[:-1]) :
         assert line[15:56] == data[i+1][15:56]
         
         # analyse_pairs of lines which are duplicate
