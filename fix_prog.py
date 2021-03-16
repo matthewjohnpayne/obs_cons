@@ -30,10 +30,10 @@ def analyse_pairs(line1, line2):
         elif pc1 != ' ' and pc2 == ' ':
             keep, discard = line1, line2
 
-    # If both are not-blank, discard the first (and keep the second)
-    elif pc1 != ' ' and pc2 != ' ':
-        keep, discard = line2, line1
-    
+        # If both are not-blank, discard the first (and keep the second)
+        elif pc1 != ' ' and pc2 != ' ':
+            keep, discard = line2, line1
+        
     return keep, discard
 
 
