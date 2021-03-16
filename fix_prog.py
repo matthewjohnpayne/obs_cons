@@ -42,10 +42,13 @@ def analyse_prog_file(filepath, ):
     # check file contents
     assert len(data)  % 2 == 0
     for i, line in enumerate(data[:-1]) :
-        assert line[15:56] == data[i+1][15:56], f"line[15:56]={line[15:56]}, data[i+1][15:56]={data[i+1][15:56]}"
         
         # analyse_pairs of lines which are duplicate
         if i % 2 == 0:
+            # Check ...
+            assert line[15:56] == data[i+1][15:56], f"line[15:56]={line[15:56]}, data[i+1][15:56]={data[i+1][15:56]}"
+            
+            # Analyze ...
             keep, discard = analyse_pairs( line, data[i+1])
             keep_list.append(keep)
             discard_list.append(keep)
