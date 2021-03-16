@@ -12,6 +12,7 @@ import os, sys
 def analyse_pairs(line1, line2):
     print(line1)
     print(line2)
+    
     # Get the program codes
     pc1 = line1[13]
     pc2 = line2[13]
@@ -41,7 +42,7 @@ def analyse_prog_file(filepath, ):
     # check file contents
     assert len(data)  % 2 == 0
     for i, line in enumerate(data[:-1]) :
-        assert line[15:56] == data[i+1][15:56]
+        assert line[15:56] == data[i+1][15:56], f"line[15:56]={line[15:56]}, data[i+1][15:56]={data[i+1][15:56]}"
         
         # analyse_pairs of lines which are duplicate
         if i % 2 == 0:
