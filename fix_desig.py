@@ -25,8 +25,8 @@ def analyse_pairs(line1, line2, QCID):
     print(ref1 , ref2)
 
     # Look up the primary designations in the database
-    return1 = QCID.check_desig_exists(desig1)
-    return2 = QCID.check_desig_exists(desig2)
+    return1 = QCID.check_desig_exists(desig1)[0]
+    return2 = QCID.check_desig_exists(desig2)[0]
     prim1 = return1['packed_primary_provisional_designation']
     prim2 = return2['packed_primary_provisional_designation']
     print(prim1)
