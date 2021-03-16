@@ -11,7 +11,7 @@ import os, sys
 sys.path.insert(0,'/sa/identifications_pipeline/dbchecks/')
 import query_ids as dbq
 
-def analyse_pairs(line1, line2):
+def analyse_pairs(line1, line2, QCID):
 
     # Get the designation part
     desig1 = line1[:13].strip()
@@ -19,8 +19,8 @@ def analyse_pairs(line1, line2):
     assert desig1 != desig2
     
     # Look up the primary designations in the database
-    return1 = dbq.check_desig_exists(desig1)
-    return2 = dbq.check_desig_exists(desig2)
+    return1 = QCID.check_desig_exists(desig1)
+    return2 = QCID.check_desig_exists(desig2)
     print(return1)
     print()
     print(return2)
@@ -39,6 +39,9 @@ def analyse_pairs(line1, line2):
 def analyse_desig_file(filepath, ):
     ''' go through entire diff_desig file '''
     keep_list,discard_list = [],[]
+    
+    # Init Query Class
+    QCID = QueryCurrentID()
 
     # read file contents
     with open(filepath, 'r') as fh: data = fh.readlines()
@@ -55,7 +58,7 @@ def analyse_desig_file(filepath, ):
             assert line[15:56] == data[i+1][15:56], f"line[15:56]={line[15:56]}, data[i+1][15:56]={data[i+1][15:56]}"
 
             # Analyze ...
-            keep, discard = analyse_pairs( line, data[i+1])
+            keep, discard = analyse_pairs( line, data[i+1] , QCID)
             #print('Keep   ',keep)
             #print('Discard',discard)
             #print()
