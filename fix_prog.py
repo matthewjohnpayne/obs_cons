@@ -13,8 +13,8 @@ def analyse_pairs(line1, line2):
     print(line1)
     print(line2)
     # Get the program codes
-    pc1 = line1[14]
-    pc2 = line2[14]
+    pc1 = line1[13]
+    pc2 = line2[13]
     assert pc1 != pc2, f"pc1={pc1}, pc2={pc2}"
         
     # If one is blank, discard (and keep the non-blank)
