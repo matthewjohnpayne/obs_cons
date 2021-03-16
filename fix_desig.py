@@ -58,7 +58,8 @@ def analyse_desig_file(filepath, ):
     QCID = dbq.QueryCurrentID()
 
     # read file contents
-    with open(filepath, 'r') as fh: data = fh.readlines()
+    with open(filepath, 'r') as fh:
+        data = [_.strip('\n') for _ in fh.readlines()]
     
     # check file contents
     assert len(data)  % 2 == 0
