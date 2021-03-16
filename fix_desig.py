@@ -20,9 +20,9 @@ def analyse_pairs(line1, line2, QCID):
     ref2 = line2[72:77].strip()
     assert desig1 != desig2
     print(line1)
-    print(line1[13])
+    print(line1[12])
     print(line2)
-    print(line2 [13])
+    print(line2 [12])
 
     # Look up the primary designations in the database
     return1 = QCID.check_desig_exists(desig1)[0]
@@ -31,9 +31,9 @@ def analyse_pairs(line1, line2, QCID):
     prim2 = return2['packed_primary_provisional_designation']
     
     # Does one have an asterisk while the other does not?
-    if   line1[13] == "*" and line1[13] != "*":
+    if   line1[12] == "*" and line1[12] != "*":
         keep, discard = line1, line2
-    elif line1[13] != "*" and line1[13] == "*":
+    elif line1[12] != "*" and line1[12] == "*":
         keep, discard = line2, line1
 
     else:
