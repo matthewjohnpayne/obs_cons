@@ -10,7 +10,7 @@ prog_cod_dup
 import os, sys
 
 def analyse_pairs(line1, line2):
-
+    print(line1, line2)
     # Get the program codes
     pc1 = line1[14]
     pc2 = line2[14]
