@@ -36,7 +36,7 @@ def analyse_prog_file(filepath, ):
     
     # read file contents
     with open(filepath, 'r') as fh:
-        data = [_.strip() for _ in fh.readlines()]
+        data = [_.strip('\n') for _ in fh.readlines()]
     
     # check file contents
     assert len(data)  % 2 == 0
