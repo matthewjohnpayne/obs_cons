@@ -16,11 +16,19 @@ def analyse_pairs(line1, line2):
     pc2 = line2[13]
     assert pc1 != pc2, f"pc1={pc1}, pc2={pc2}"
         
-    # If one is blank, discard (and keep the non-blank)
-    if   pc1 == ' ' and pc2 != ' ':
-        keep, discard = line2, line1
-    elif pc1 != ' ' and pc2 == ' ':
+    # Does one have an asterisk while the other does not? Keep the asterisk!
+    # *** THIS CHECK MIGHT NOT BE REQUIRED HERE, BUT NO HARM IN COPYING FROM fix_desig ***
+    if   line1[12] == "*" and line2[12] != "*":
         keep, discard = line1, line2
+    elif line1[12] != "*" and line2[12] == "*":
+        keep, discard = line2, line1
+
+    else:
+        # If one is blank, discard (and keep the non-blank)
+        if   pc1 == ' ' and pc2 != ' ':
+            keep, discard = line2, line1
+        elif pc1 != ' ' and pc2 == ' ':
+            keep, discard = line1, line2
 
     # If both are not-blank, discard the first (and keep the second)
     elif pc1 != ' ' and pc2 != ' ':
