@@ -27,9 +27,9 @@ def analyse_pairs(line1, line2, QCID):
     prim2 = return2['packed_primary_provisional_designation']
     
     # Does one have an asterisk while the other does not?
-    if   line1[12] == "*" and line1[12] != "*":
+    if   line1[12] == "*" and line2[12] != "*":
         keep, discard = line1, line2
-    elif line1[12] != "*" and line1[12] == "*":
+    elif line1[12] != "*" and line2[12] == "*":
         keep, discard = line2, line1
 
     else:
