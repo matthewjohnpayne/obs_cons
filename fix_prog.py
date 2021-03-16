@@ -10,9 +10,7 @@ prog_cod_dup
 import os, sys
 
 def analyse_pairs(line1, line2):
-    print(line1)
-    print(line2)
-    
+
     # Get the program codes
     pc1 = line1[13]
     pc2 = line2[13]
@@ -32,7 +30,11 @@ def analyse_pairs(line1, line2):
 
 
 def analyse_prog_file(filepath, ):
-    ''' go through entire prog_cod_dup file '''
+    '''
+    go through entire prog_cod_dup file
+    
+    return list of observations to be discarded
+    '''
     keep_list,discard_list = [],[]
     
     # read file contents
@@ -41,6 +43,8 @@ def analyse_prog_file(filepath, ):
     
     # check file contents
     assert len(data)  % 2 == 0
+    
+    # loop
     for i, line in enumerate(data[:-1]) :
         
         # analyse_pairs of lines which are duplicate
@@ -59,30 +63,16 @@ def analyse_prog_file(filepath, ):
     # check results
     len(discard_list) == len(keep_list) == len(data)/2
     
-    #for _ in discard_list:
-    #    print(_)
-        
+    # print to file
+    print_to_file(discard_list, filepath+'_to_be_removed')
+    
     return discard_list
 
-"""
-def remove_discards(filepath , discard_list):
-    ''' go through filepath and remove items that are in discard_list '''
-
-    # read file contents
-    with open(filepath, 'r') as fh: data = fh.readlines())
-    
-    # discard ...
-    subset = [ _ for _ in data if _ not in discard_list ]
-    
-    # check...
-    assert len(subset) + len(discard_list) == len(data)
-        
-    # write out (to separate file for now)
-    with open(filepath+'tmp', 'w') as fh:
-        for _ in subset:
-            fh.write(_)
-"""
-
+def print_to_file(discard_list, discard_filepath):
+    with open(discard_filepath, 'w') as fh:
+        for line in discard_list:
+            lb = '\n' if line[-1] != '\n' else ''
+            fh.write(line + lb)
 
 if __name__ == '__main__':
 

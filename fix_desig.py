@@ -24,23 +24,48 @@ def analyse_pairs(line1, line2):
     # If the input designation and final designation differ in their "numbered status", ...
     # ... raise a warning
 
+    
+    return keep, discard
 
 def analyse_desig_file(filepath, )
     ''' go through entire diff_desig file '''
-    
+    keep_list,discard_list = [],[]
+
     # read file contents
     with open(filepath, 'r') as fh: data = fh.readlines()
     
     # check file contents
     assert len(data)  % 2 == 0
-    for i, line in data[:-1] :
-        assert line[15:56] == data[i+1][15:56]
         
+    # loop
+    for i, line in enumerate(data[:-1]) :
+    
         # analyse_pairs of lines which are duplicate
         if i % 2 == 0:
-            analyse_pairs( line, data[i+1])
+            # Check ...
+            assert line[15:56] == data[i+1][15:56], f"line[15:56]={line[15:56]}, data[i+1][15:56]={data[i+1][15:56]}"
+
+            # Analyze ...
+            keep, discard = analyse_pairs( line, data[i+1])
+            print('Keep   ',keep)
+            print('Discard',discard)
+            print()
+            keep_list.append(keep)
+            discard_list.append(keep)
+
+    # check results
+    len(discard_list) == len(keep_list) == len(data)/2
     
-    
+    # print to file
+    print_to_file(discard_list, filepath+'_to_be_removed')
+
+    return discard_list
+
+def print_to_file(discard_list, discard_filepath):
+    with open(discard_filepath, 'w') as fh:
+        for line in discard_list:
+            lb = '\n' if line[-1] != '\n' else ''
+            fh.write(line + lb)
 
 if __name__ == '__main__':
 
