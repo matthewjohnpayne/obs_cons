@@ -17,7 +17,7 @@ def analyse_pairs(line1, line2, QCID):
     desig1 = line1[:13].strip()
     desig2 = line2[:13].strip()
     assert desig1 != desig2
-    
+    print(desig1 , desig2)
     # Look up the primary designations in the database
     return1 = QCID.check_desig_exists(desig1)
     return2 = QCID.check_desig_exists(desig2)
