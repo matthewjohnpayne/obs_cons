@@ -22,7 +22,7 @@ def analyse_pairs(line1, line2, QCID):
     print(line1)
     print(line2)
     print(desig1 , desig2)
-    print(ref1 , ref1)
+    print(ref1 , ref2)
 
     # Look up the primary designations in the database
     return1 = QCID.check_desig_exists(desig1)
@@ -75,9 +75,9 @@ def analyse_desig_file(filepath, ):
 
             # Analyze ...
             keep, discard = analyse_pairs( line, data[i+1] , QCID)
-            #print('Keep   ',keep)
-            #print('Discard',discard)
-            #print()
+            print('Keep   ',keep)
+            print('Discard',discard)
+            print()
             keep_list.append(keep)
             discard_list.append(discard)
             sys.exit()
