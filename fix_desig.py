@@ -41,7 +41,7 @@ def analyse_desig_file(filepath, ):
     keep_list,discard_list = [],[]
     
     # Init Query Class
-    QCID = QueryCurrentID()
+    QCID = dbq.QueryCurrentID()
 
     # read file contents
     with open(filepath, 'r') as fh: data = fh.readlines()
