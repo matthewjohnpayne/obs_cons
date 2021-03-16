@@ -19,7 +19,8 @@ def analyse_pairs(line1, line2, QCID):
     ref1 = line1[72:77].strip()
     ref2 = line2[72:77].strip()
     assert desig1 != desig2
-    print(line1 , line2)
+    print(line1)
+    print(line2)
     print(desig1 , desig2)
     print(ref1 , ref1)
 
