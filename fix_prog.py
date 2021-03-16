@@ -58,7 +58,7 @@ def analyse_prog_file(filepath, ):
             print('Discard',discard)
             print()
             keep_list.append(keep)
-            discard_list.append(keep)
+            discard_list.append(discard)
     
     # check results
     len(discard_list) == len(keep_list) == len(data)/2
@@ -70,6 +70,7 @@ def analyse_prog_file(filepath, ):
 
 def print_to_file(discard_list, discard_filepath):
     with open(discard_filepath, 'w') as fh:
+        print('Writing observations to be deleted to ...', discard_filepath)
         for line in discard_list:
             lb = '\n' if line[-1] != '\n' else ''
             fh.write(line + lb)

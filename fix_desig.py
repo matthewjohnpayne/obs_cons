@@ -47,9 +47,9 @@ def analyse_desig_file(filepath, )
 
             # Analyze ...
             keep, discard = analyse_pairs( line, data[i+1])
-            print('Keep   ',keep)
-            print('Discard',discard)
-            print()
+            #print('Keep   ',keep)
+            #print('Discard',discard)
+            #print()
             keep_list.append(keep)
             discard_list.append(discard)
 
@@ -63,7 +63,9 @@ def analyse_desig_file(filepath, )
 
 def print_to_file(discard_list, discard_filepath):
     with open(discard_filepath, 'w') as fh:
+        print('Writing observations to be deleted to ...', discard_filepath)
         for line in discard_list:
+            print(line)
             lb = '\n' if line[-1] != '\n' else ''
             fh.write(line + lb)
 
