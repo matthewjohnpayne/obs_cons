@@ -7,6 +7,9 @@ I assume that output files have been created that include ...
 diff_desig
 
 '''
+import os, sys
+sys.path.insert(0,'/sa/identifications_pipeline/dbchecks/')
+import query_ids as dbq
 
 def analyse_pairs(line1, line2):
 
@@ -16,6 +19,12 @@ def analyse_pairs(line1, line2):
     assert desig1 != desig2
     
     # Look up the primary designations in the database
+    return1 = dbq.check_desig_exists(desig1)
+    return2 = dbq.check_desig_exists(desig2)
+    print(return1)
+    print()
+    print(return2)
+    assert False
     
     # If the primary designations are the same, assign to primary
     
