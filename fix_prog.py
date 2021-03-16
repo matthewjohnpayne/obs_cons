@@ -80,6 +80,7 @@ def print_to_file(discard_list, discard_filepath):
     with open(discard_filepath, 'w') as fh:
         print('Writing observations to be deleted to ...', discard_filepath)
         for line in discard_list:
+            print(line)
             lb = '\n' if line[-1] != '\n' else ''
             fh.write(line + lb)
 
