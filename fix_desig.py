@@ -16,20 +16,34 @@ def analyse_pairs(line1, line2, QCID):
     # Get the designation part
     desig1 = line1[:12].strip()
     desig2 = line2[:12].strip()
+    ref1 = line1[72:77].strip()
+    ref2 = line2[72:77].strip()
     assert desig1 != desig2
+    print(line1 , line2)
     print(desig1 , desig2)
+    print(ref1 , ref1)
+
     # Look up the primary designations in the database
     return1 = QCID.check_desig_exists(desig1)
     return2 = QCID.check_desig_exists(desig2)
-    print(return1)
+    prim1 = return1['packed_primary_provisional_designation']
+    prim2 = return2['packed_primary_provisional_designation']
+    print(prim1)
     print()
-    print(return2)
+    print(prim2)
     assert False
     
-    # If the primary designations are the same, assign to primary
-    
+    # If the primary designations are the same, doesn't matter
+    if prim1 == prim2:
+        keep, discard = line1, line2
+        
     # If the primary designations are different, take the later one (use reference to decide which later)
-    
+    else:
+        if ref2 >= ref1:
+            keep, discard = line2, line1
+        else:
+            keep, discard = line1, line2
+
     # If the input designation and final designation differ in their "numbered status", ...
     # ... raise a warning
 
@@ -64,7 +78,8 @@ def analyse_desig_file(filepath, ):
             #print()
             keep_list.append(keep)
             discard_list.append(discard)
-
+            sys.exit()
+            
     # check results
     len(discard_list) == len(keep_list) == len(data)/2
     
