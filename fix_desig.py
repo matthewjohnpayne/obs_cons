@@ -26,24 +26,19 @@ def analyse_pairs(line1, line2, QCID):
     prim1 = return1['packed_primary_provisional_designation']
     prim2 = return2['packed_primary_provisional_designation']
     
-    # Does one have an asterisk while the other does not?
+    # Does one have an asterisk while the other does not? Keep the asterisk!
     if   line1[12] == "*" and line2[12] != "*":
         keep, discard = line1, line2
     elif line1[12] != "*" and line2[12] == "*":
         keep, discard = line2, line1
 
     else:
-    
-        # If the primary designations are the same, doesn't matter
-        if prim1 == prim2:
-            keep, discard = line1, line2
-            
-        # If the primary designations are different, take the later one (use reference to decide which later)
+                
+        # Take the later one (use reference to decide which later)
+        if ref2 >= ref1:
+            keep, discard = line2, line1
         else:
-            if ref2 >= ref1:
-                keep, discard = line2, line1
-            else:
-                keep, discard = line1, line2
+            keep, discard = line1, line2
     
     return keep, discard
 
