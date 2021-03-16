@@ -73,9 +73,6 @@ def analyse_desig_file(filepath, ):
 
             # Analyze ...
             keep, discard = analyse_pairs( line, data[i+1] , QCID)
-            print('Keep   ',keep)
-            print('Discard',discard)
-            print()
             keep_list.append(keep)
             discard_list.append(discard)
             
