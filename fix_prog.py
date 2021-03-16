@@ -50,14 +50,17 @@ def analyse_prog_file(filepath, ):
             
             # Analyze ...
             keep, discard = analyse_pairs( line, data[i+1])
+            print('Keep   ',keep)
+            print('Discard'discard)
+            print()
             keep_list.append(keep)
             discard_list.append(keep)
     
     # check results
     len(discard_list) == len(keep_list) == len(data)/2
     
-    for _ in discard_list:
-        print(_)
+    #for _ in discard_list:
+    #    print(_)
         
     return discard_list
 
