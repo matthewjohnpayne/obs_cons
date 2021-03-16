@@ -33,13 +33,20 @@ def analyse_pairs(line1, line2, QCID):
         keep, discard = line2, line1
 
     else:
-                
-        # Take the later one (use reference to decide which later)
-        if ref2 >= ref1:
-            keep, discard = line2, line1
-        else:
-            keep, discard = line1, line2
     
+        # If there's an obvious redesignation...
+        if   desig1 in line2:
+            keep, discard = line2, line1
+        elif desig2 in line1:
+            keep, discard = line1, line2
+        else:
+        
+            # Take the later one (use reference to decide which later)
+            if ref2 >= ref1:
+                keep, discard = line2, line1
+            else:
+                keep, discard = line1, line2
+        
     return keep, discard
 
 def analyse_desig_file(filepath, ):
