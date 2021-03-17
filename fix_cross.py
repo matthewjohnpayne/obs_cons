@@ -11,7 +11,7 @@ import sys, os
 import glob
 from collections import Mapping, Container, Counter, defaultdict
 
-# Functions to find & fix cross-desig duplicates ... 
+# Functions to find & fix cross-desig duplicates ...
 def _get_filenames():
     ''' get a dict containing all the filenames we want to work with ...'''
     
@@ -36,7 +36,7 @@ def _get_numbered_filenames():
     
     return files_
     
-def _get_unnumbered_filenames(self, ):
+def _get_unnumbered_filenames( ):
     ''' get filenames for unnumbered observations (primary data files)'''
 
     filenames_to_ignore = []
