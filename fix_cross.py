@@ -69,7 +69,7 @@ def load_grp_obs(filepath_list):
     obs_dict = {}
     for fp in filepath_list:
         # Read the file contents into a dictionary
-        with open(f,'r') as fh:
+        with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
             obs_dict[fp] = {line[15:56]:True for line in fh if line[14] not in ['s','v']}
     return obs_dict
@@ -119,9 +119,7 @@ def find_cross_desig_duplicates() :
     for i, grp_i in enumerate( grp_names[1:] ):
         for j, grp_j in enumerate( grp_names[:i] ):
             print(i,j,grp_i,grp_j,' ... loading...')
-            print()
-            print(group_dict[grp_i] )
-            print()
+
             # load the contents of all files in each grp into a dict
             obs_dict_grp_i = load_grp_obs( group_dict[grp_i] )
             obs_dict_grp_j = load_grp_obs( group_dict[grp_j] )
