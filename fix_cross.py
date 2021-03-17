@@ -89,14 +89,14 @@ def find_duplicates(obs_dict):
 
         # store duplicates with list of file-integers
         for k in intersecn:
-            DUP[k].append(local[k])
+            DUP[k].append(fp_dict[k])
             if isinstance(ALL[k], int):
                 DUP[k].append(ALL[k])
             else:
                 DUP[k].extend(ALL[k])
                 
         # update the overall dictionary with local data
-        ALL.update(local)
+        ALL.update(fp_dict)
         
         # update the overall dictionary with the duplicates
         ALL.update(DUP)
@@ -116,7 +116,6 @@ def find_cross_desig_duplicates() :
     
     # Loop over Groups
     grp_names = list(group_dict.keys())
-    print('grp_names : ', grp_names)
     for i, grp_i in enumerate( grp_names[1:] ):
         for j, grp_j in enumerate( grp_names[:i] ):
             print(grp_i,grp_j,' ... loading...')
