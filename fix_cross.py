@@ -168,7 +168,7 @@ def get_required_data(duplicates):
             stdout, stderr = process.communicate()
             stdout = stdout.decode("utf-8").split('\n')
             
-            out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath})
+            out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath}")
 
 def fix_cross_desig_duplicates():
     
