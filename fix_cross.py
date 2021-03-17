@@ -1,6 +1,17 @@
-from collections import Mapping, Container, Counter, defaultdict
-import sys, os
+'''
+Code to look-for & fix, cross-file duplicates
+I.e. observations which appear in multiple files under multiple designations
 
+*** Do NOT run in the same way as the fix_desig / fix_prog routines ***
+
+'''
+
+# Third party imports
+import sys, os
+import glob
+from collections import Mapping, Container, Counter, defaultdict
+
+# Functions to find & fix cross-desig duplicates ... 
 def _get_filenames():
     ''' get a dict containing all the filenames we want to work with ...'''
     
