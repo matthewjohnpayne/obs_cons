@@ -53,7 +53,7 @@ def split_into_groups(filepath_list, group_size = 10 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
-        grp_num = str(i//size)
+        grp_num = str(i // group_size)
         
         if grp_num not in group_dict:
             group_dict[grp_num] = []
