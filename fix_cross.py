@@ -115,6 +115,7 @@ def find_cross_desig_duplicates() :
     
     # Loop over Groups
     grp_names = list(group_dict.keys())
+    print(grp_names)
     for i, grp_i in enumerate( grp_names[1:] ):
         for j, grp_j in enumerate( grp_names[:i] ):
             print(grp_i,grp_j,' ... loading...')
