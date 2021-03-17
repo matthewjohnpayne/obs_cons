@@ -168,9 +168,9 @@ def get_required_data(duplicate_dict):
                                         shell=True
             )
             stdout, stderr = process.communicate()
-            stdout = stdout.decode("utf-8").split('\n')
-            
-            out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath}")
+            stdout = stdout.decode("utf-8").strip('\n')
+            print('stdout=',stdout)
+            out_dict[obs80bit].append(f"{stdout} : {i} : {filepath}")
 
 def fix_cross_desig_duplicates():#dup_file_list):
 
