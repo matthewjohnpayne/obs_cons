@@ -126,7 +126,7 @@ def save_duplicates(i,j, duplicate_dict):
     with open( dup_file , 'w') as fh:
         for obs80bit, lst in duplicate_dict.items():
             for i,n in enumerate(lst):
-                fh.write(f'{obs80bit},{i},{n}}\n')
+                fh.write(f'{obs80bit},{i},{n}\n')
     print('\t'*3,'created/updated:', dup_file)
     sys.exit()
     
