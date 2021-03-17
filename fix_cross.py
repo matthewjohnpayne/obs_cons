@@ -118,6 +118,7 @@ def find_cross_desig_duplicates() :
     print('grp_names[1:] = ',grp_names[1:])
     for i, grp_i in enumerate( grp_names[1:] ):
         for j, grp_j in enumerate( grp_names[:i] ):
+            print(i,j)
             print(grp_i,grp_j,' ... loading...')
 
             # load the contents of all files in each grp into a dict
