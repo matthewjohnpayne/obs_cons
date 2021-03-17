@@ -61,6 +61,7 @@ def split_into_groups(filepath_list, group_size = 10 ):
         group_dict[grp_num].append(filepath)
     
     print(f"split_into_groups: N_groups = {len(group_dict)}, N_files = {len(filepath_list)}")
+    print('0', group_dict['0'] )
     return group_dict
 
 def load_grp_obs(filepath_list):
