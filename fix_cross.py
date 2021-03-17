@@ -89,7 +89,7 @@ def find_duplicates(obs_dict):
         # store duplicates with list of file-integers
         for k in intersecn:
             DUP[k].append(fp_dict[k])
-            if isinstance(ALL[k], int):
+            if isinstance(ALL[k], str):
                 DUP[k].append(ALL[k])
             else:
                 DUP[k].extend(ALL[k])
