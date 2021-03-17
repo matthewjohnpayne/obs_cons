@@ -114,9 +114,10 @@ def find_cross_desig_duplicates() :
     
     # Loop over Groups
     grp_names = list(group_dict.items())
+    print('grp_names : ', grp_names)
     for i, grp_i in enumerate( grp_names ):
         for j, grp_j in enumerate( grp_names[i+1:] ):
-            print(i,j,' ... loading...')
+            print(i,j,grp_i,grp_j' ... loading...')
             
             # load the contents of all files in each grp into a dict
             obs_dict_grp_i = load_grp_obs( group_dict[grp_i] )
