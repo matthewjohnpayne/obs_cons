@@ -49,7 +49,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def split_into_groups(filepath_list, group_size = 10 ):
+def split_into_groups(filepath_list, group_size = 20 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
@@ -61,7 +61,6 @@ def split_into_groups(filepath_list, group_size = 10 ):
         group_dict[grp_num].append(filepath)
     
     print(f"split_into_groups: N_groups = {len(group_dict)}, N_files = {len(filepath_list)}")
-    print('0', group_dict['0'] )
     return group_dict
 
 def load_grp_obs(filepath_list):
@@ -134,7 +133,7 @@ def find_cross_desig_duplicates() :
     return duplicates
         
 def save_duplicates(i,j, duplicate_dict):
-    print('save_duplicates:', i,j, len(duplicates))
+    print('save_duplicates:', i,j, len(duplicate_dict))
     dup_file = os.path.join(self.save_dir , f'cross_des_duplicates_{i}_{j}.txt')
     with open( dup_file , 'w') as fh:
         for obs80bit, lst in duplicate_dict.items():
