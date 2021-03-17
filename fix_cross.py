@@ -122,7 +122,8 @@ def find_cross_desig_duplicates() :
             # load the contents of all files in each grp into a dict
             obs_dict_grp = load_grp_obs( group_dict[grp_i] )
             obs_dict_grp.update( load_grp_obs( group_dict[grp_j] ) )
-
+            print("\n N_loaded = ", len(obs_dict_grp) )
+            
             # I don't think we need to bother finding duplicates within an individual group
             # Instead just find any duplicates anywhere across the loaded contents
             duplicates[(grp_i,grp_j)] = find_duplicates(obs_dict_grp)
@@ -134,7 +135,7 @@ def find_cross_desig_duplicates() :
         
 def save_duplicates(i,j, duplicate_dict):
     print('save_duplicates:', i,j, len(duplicate_dict))
-    dup_file = os.path.join(self.save_dir , f'cross_des_duplicates_{i}_{j}.txt')
+    dup_file = os.path.join(f'cross_des_duplicates_{i}_{j}.txt')
     with open( dup_file , 'w') as fh:
         for obs80bit, lst in duplicate_dict.items():
             for i,n in enumerate(lst):
