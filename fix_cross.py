@@ -168,7 +168,7 @@ def get_required_data(duplicate_dict):
                                         shell=True
             )
             stdout, stderr = process.communicate()
-            stdout = stdout.decode("utf-8") #.strip('\n')
+            stdout = stdout.decode("utf-8").split('\n')[0]
             print('command=',command)
             print('stdout=',stdout)
             print('stderr=',stderr)
