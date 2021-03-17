@@ -36,7 +36,7 @@ def _get_numbered_filenames():
     
     return files_
     
-def _get_unnumbered_filenames( ):
+def _get_unnumbered_filenames( files_ ):
     ''' get filenames for unnumbered observations (primary data files)'''
 
     filenames_to_ignore = []
