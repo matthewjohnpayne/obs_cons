@@ -161,7 +161,7 @@ def get_required_data(duplicate_dict):
         out_dict[obs80bit] = []
         for i,filepath in enumerate(filepath_lst):
             # Grep in the original file for the obs80 bit
-            command = f'grep "{obs80bit}" {filepath_lst}'
+            command = f'grep "{obs80bit}" {filepath}'
             process = subprocess.Popen( command,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
