@@ -86,7 +86,7 @@ def find_duplicates(obs_dict):
         
         # update the overall dictionary with the duplicates
         ALL.update(DUP)
-        print(f'\t N_All= {len(ALL)}, N_Dup= {len(DUP)}')]
+        print(f'\t N_All= {len(ALL)}, N_Dup= {len(DUP)}')
         
     del ALL
     return DUP
