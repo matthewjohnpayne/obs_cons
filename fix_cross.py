@@ -119,7 +119,7 @@ def find_cross_desig_duplicates() :
     print('grp_names : ', grp_names)
     for i, grp_i in enumerate( grp_names[1:] ):
         for j, grp_j in enumerate( grp_names[:i] ):
-            print(i,j,grp_i,grp_j,' ... loading...')
+            print(grp_i,grp_j,' ... loading...')
 
             # load the contents of all files in each grp into a dict
             obs_dict_grp = load_grp_obs( group_dict[grp_i] )
@@ -127,10 +127,10 @@ def find_cross_desig_duplicates() :
 
             # I don't think we need to bother finding duplicates within an individual group
             # Instead just find any duplicates anywhere across the loaded contents
-            duplicates[(i,j)] = find_duplicates(obs_dict_grp_i)
+            duplicates[(grp_i,grp_j)] = find_duplicates(obs_dict_grp)
             
             # Record the duplicates
-            save_duplicates(i,j, duplicates[(i,j)])
+            save_duplicates(i,j, duplicates[(grp_i,grp_j)])
             
     return duplicates
         
