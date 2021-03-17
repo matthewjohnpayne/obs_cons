@@ -71,7 +71,7 @@ def load_grp_obs(filepath_list):
         # Read the file contents into a dictionary
         with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
-            obs_dict[fp] = {line[15:56]:True for line in fh if line[14] not in ['s','v']}
+            obs_dict[fp] = {line[15:56]:fp for line in fh if line[14] not in ['s','v']}
     return obs_dict
 
 def find_duplicates(obs_dict):
