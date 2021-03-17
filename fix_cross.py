@@ -67,7 +67,8 @@ def split_into_groups(filepath_list, group_size = 10 ):
 def load_grp_obs(filepath_list):
     ''' load the contents of all files into a dict '''
     obs_dict = {}
-    for fp in filepath_list:
+    for i, fp in enumerate(filepath_list):
+        print(i, end=', ')
         # Read the file contents into a dictionary
         with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
@@ -121,13 +122,14 @@ def find_cross_desig_duplicates() :
             print(i,j,grp_i,grp_j,' ... loading...')
 
             # load the contents of all files in each grp into a dict
-            obs_dict_grp_i = load_grp_obs( group_dict[grp_i] )
-            obs_dict_grp_j = load_grp_obs( group_dict[grp_j] )
-            
+            obs_dict_grp = load_grp_obs( group_dict[grp_i] )
+            print('len=', len(obs_dict_grp) )
+            obs_dict_grp.update( load_grp_obs( group_dict[grp_j] ) )
+            print('len=', len(obs_dict_grp) )
+
             # I don't think we need to bother finding duplicates within an individual group
             # Instead just find any duplicates anywhere across the loaded contents
-            obs_dict_grp_i.update(obs_dict_grp_j)
-            duplicates[(i,j)] = find_intra_group_duplicates(obs_dict_grp_i)
+            duplicates[(i,j)] = find_duplicates(obs_dict_grp_i)
             
             # Record the duplicates
             save_duplicates(i,j, duplicates[(i,j)])
