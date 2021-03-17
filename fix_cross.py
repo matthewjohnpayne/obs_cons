@@ -10,6 +10,7 @@ I.e. observations which appear in multiple files under multiple designations
 import sys, os
 import glob
 from collections import Mapping, Container, Counter, defaultdict
+import subprocess
 
 # Functions to find & fix cross-desig duplicates ...
 def _get_filenames():
@@ -134,6 +135,10 @@ def find_cross_desig_duplicates() :
             # Record the duplicates
             save_duplicates(i,j, duplicates[(grp_i,grp_j)])
             
+    # The duplicate information returned above is a little sparse (obs80-only)
+    # - Let's get all of the required data in a nice format ...
+    duplicates = get_required_data(duplicates)
+        
     return duplicates
         
 def save_duplicates(i,j, duplicate_dict):
@@ -141,10 +146,34 @@ def save_duplicates(i,j, duplicate_dict):
     dup_file = os.path.join(f'cross_des_duplicates_{i}_{j}.txt')
     with open( dup_file , 'w') as fh:
         for obs80bit, lst in duplicate_dict.items():
-            for i,n in enumerate(lst):
-                fh.write(f'{obs80bit},{i},{n}\n')
+            for _ in lst:
+                fh.write(f'{_}\n')
     print('\t'*3,'created/updated:', dup_file)
+
+def get_required_data(duplicates):
+    ''' The duplicate information returned above is a little sparse (obs80-only)
+        Let's get all of the required data in a nice format ...
+    '''
+    out_dict = {}
+    for obs80bit, filepath_lst in duplicate_dict.items():
+        out_dict[obs80bit] = []
+        for i,filepath in enumerate(filepath_lst):
+            # Grep in the original file for the obs80 bit
+            command = f'grep {obs80bit} {filepath_lst}'
+            process = subprocess.Popen( command,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        shell=True
+            )
+            stdout, stderr = process.communicate()
+            stdout = stdout.decode("utf-8").split('\n')
+            
+            out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath})
+
+def fix_cross_desig_duplicates():
     
+
+
 if __name__ == '__main__':
     duplicates = find_cross_desig_duplicates()
     #fix_cross_desig_duplicates(duplicates)
