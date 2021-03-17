@@ -152,7 +152,7 @@ def save_duplicates(i,j, duplicate_dict):
                 fh.write(f'{_}\n')
     print('\t'*3,'created/updated:', dup_file)
 
-def get_required_data(duplicates):
+def get_required_data(duplicate_dict):
     ''' The duplicate information returned above is a little sparse (obs80-only)
         Let's get all of the required data in a nice format ...
     '''
@@ -172,9 +172,13 @@ def get_required_data(duplicates):
             
             out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath}")
 
-def fix_cross_desig_duplicates(dup_file_list):
-    pass 
-    
+def fix_cross_desig_duplicates():#dup_file_list):
+
+    dup_file_list = []
+    for i in range(12):
+        for j in range(i+1,12):
+            dup_file_list.append( 'cross_des_duplicates_{i}_{j}.txt' )
+            
 
 if __name__ == '__main__':
     dup_file_list , duplicates = find_cross_desig_duplicates()
