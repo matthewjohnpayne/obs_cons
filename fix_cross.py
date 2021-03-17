@@ -120,7 +120,6 @@ def find_cross_desig_duplicates() :
         for j in range(i+1,len(grp_names)):
             grp_i,grp_j = grp_names[i], grp_names[j]
             
-            print(i,j)
             print(grp_i,grp_j,' ... loading...')
 
             # load the contents of all files in each grp into a dict
@@ -145,7 +144,6 @@ def save_duplicates(i,j, duplicate_dict):
             for i,n in enumerate(lst):
                 fh.write(f'{obs80bit},{i},{n}\n')
     print('\t'*3,'created/updated:', dup_file)
-    sys.exit()
     
 if __name__ == '__main__':
     duplicates = find_cross_desig_duplicates()
