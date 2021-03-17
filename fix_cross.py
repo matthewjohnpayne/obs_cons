@@ -170,7 +170,7 @@ def get_required_data(duplicates):
             
             out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath}")
 
-def fix_cross_desig_duplicates():
+#def fix_cross_desig_duplicates():
     
 
 
