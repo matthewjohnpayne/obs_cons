@@ -107,6 +107,7 @@ def find_duplicates(obs_dict):
 
 def find_cross_desig_duplicates() :
     duplicates = {}
+    dup_file_list = []
     
     # Get all filenames of "primary" data files
     filepath_list = _get_filenames()
@@ -130,16 +131,17 @@ def find_cross_desig_duplicates() :
             
             # I don't think we need to bother finding duplicates within an individual group
             # Instead just find any duplicates anywhere across the loaded contents
-            duplicates[(grp_i,grp_j)] = find_duplicates(obs_dict_grp)
+            duplicated_obs80_dict = find_duplicates(obs_dict_grp)
             
+            # The duplicate information returned above is a little sparse (obs80-only)
+            # - Let's get all of the required data in a nice format ...
+            duplicates[(grp_i,grp_j)] = get_required_data(duplicated_obs80_dict)
+
             # Record the duplicates
-            save_duplicates(i,j, duplicates[(grp_i,grp_j)])
+            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)]) )
             
-    # The duplicate information returned above is a little sparse (obs80-only)
-    # - Let's get all of the required data in a nice format ...
-    duplicates = get_required_data(duplicates)
         
-    return duplicates
+    return dup_file_list , duplicates
         
 def save_duplicates(i,j, duplicate_dict):
     print('save_duplicates:', i,j, len(duplicate_dict))
@@ -170,10 +172,10 @@ def get_required_data(duplicates):
             
             out_dict[obs80bit].append(f"{stdout.strip()} : {i} : {filepath}")
 
-#def fix_cross_desig_duplicates():
+def fix_cross_desig_duplicates(dup_file_list):
+    pass 
     
 
-
 if __name__ == '__main__':
-    duplicates = find_cross_desig_duplicates()
+    dup_file_list , duplicates = find_cross_desig_duplicates()
     #fix_cross_desig_duplicates(duplicates)
