@@ -173,6 +173,7 @@ def get_required_data(duplicate_dict):
             print('stdout=',stdout)
             print('stderr=',stderr)
             out_dict[obs80bit].append(f"{stdout} : {i} : {filepath}")
+    return out_dict
 
 def fix_cross_desig_duplicates():#dup_file_list):
 
