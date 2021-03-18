@@ -11,7 +11,7 @@ import sys, os
 import glob
 from collections import Mapping, Container, Counter, defaultdict
 import subprocess
-from joblib import Parallel, delayed
+#from joblib import Parallel, delayed
 
 # Functions to *FIND*  cross-desig duplicates ...
 #----------------------------------------------------
@@ -104,7 +104,6 @@ def find_duplicates(obs_dict):
     print('...finding duplicates...')
     fps = list(obs_dict.keys())
     
-    '''
     for i in range(len(fps)):
         print('\t', f'{i}/{len(fps)}' , end=', ', flush=True )
         for j in range(i+1,len(fps)):
@@ -122,8 +121,10 @@ def find_duplicates(obs_dict):
             
             
         print()
-    '''
     
+    
+    '''
+    # Trying to parallelize, but seems v. slow
     name_pairs = []
     for i in range(len(fps)):
         for j in range(i+1,len(fps)):
@@ -134,6 +135,10 @@ def find_duplicates(obs_dict):
         for k,v in _.items():
             DUP[k].extend(v)
     print(f'\n N_Dup= {len(DUP)}')
+    '''
+    
+    
+    
 
     '''
     for fp, fp_dict in obs_dict.items():
