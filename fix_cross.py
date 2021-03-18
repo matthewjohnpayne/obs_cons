@@ -140,7 +140,7 @@ def find_cross_desig_duplicates(save_dir) :
             duplicates[(grp_i,grp_j)] = get_required_data(duplicated_obs80_dict)
 
             # Record the duplicates
-            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)]  , save_dir)
+            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)]  , save_dir) )
             
         
     return dup_file_list , duplicates
