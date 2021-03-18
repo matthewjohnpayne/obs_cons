@@ -124,7 +124,7 @@ def find_cross_desig_duplicates(save_dir) :
         for j in range(i+1,len(grp_names)):
             grp_i,grp_j = grp_names[i], grp_names[j]
             
-            print(grp_i,grp_jx)
+            print(grp_i,grp_j)
 
             # load the contents of all files in each grp into a dict
             obs_dict_grp = load_grp_obs( group_dict[grp_i] )
