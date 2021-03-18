@@ -205,6 +205,7 @@ def fix_cross_desig_duplicates(save_dir):
         issue_dict = {}
         for l, line in enumerate(data):
             print('line.split(",")',line.split(","))
+            print('issue_dict',issue_dict.keys())
             issue_dict[ line.split(",")[0] ].append( line )
         
         # fix
