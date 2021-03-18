@@ -127,10 +127,11 @@ def find_duplicates(obs_dict):
     for i in range(len(fps)):
         for j in range(i+1,len(fps)):
             name_pairs.append( (fps[i], fps[j] ) )
-    results = Parallel(n_jobs=8)(delayed(intersecn_func)(name_pair[0],name_pair[1]) for name_pair in name_pairs)
+    results = Parallel(n_jobs=8)(delayed(intersecn_func)(obs_dict[name_pair[0]],obs_dict[name_pair[1]]) for name_pair in name_pairs)
     for _ in results:
         print(_)
-        DUP.update(_)
+        for k,v in _.items():
+            DUP[k].extend(v)
     print(f'\n N_Dup= {len(DUP)}')
 
     '''
