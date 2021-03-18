@@ -157,9 +157,11 @@ def get_required_data(duplicate_dict):
         Let's get all of the required data in a nice format ...
     '''
     out_dict = {}
-    for obs80bit, filepath_lst in duplicate_dict.items():
+    for i, obs80bit in enumerate(list(duplicate_dict.keys())):
+        filepath_lst = duplicate_dict[obs80bit]
+        
         out_dict[obs80bit] = []
-        for i,filepath in enumerate(filepath_lst):
+        for j,filepath in enumerate(filepath_lst):
             # Grep in the original file for the obs80 bit
             command = f'grep "{obs80bit}" {filepath}'
             process = subprocess.Popen( command,
@@ -169,10 +171,8 @@ def get_required_data(duplicate_dict):
             )
             stdout, stderr = process.communicate()
             stdout = stdout.decode("utf-8").split('\n')[0]
-            print('command=',command)
-            print('stdout=',stdout)
-            print('stderr=',stderr)
-            out_dict[obs80bit].append(f"{stdout} : {i} : {filepath}")
+ 
+            out_dict[obs80bit].append(f"{i},{j},{stdout}:{filepath}")
     return out_dict
 
 def fix_cross_desig_duplicates():#dup_file_list):
