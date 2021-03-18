@@ -85,6 +85,7 @@ def intersecn_func(d1,d2):
 
     # intersecn indicates duplicate obs80-bits
     intersecn = d1.keys() & d2.keys()
+    print('.', end='', flush=True )
 
     # store duplicates with list of file-paths
     for k in intersecn:
