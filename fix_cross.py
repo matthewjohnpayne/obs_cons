@@ -35,7 +35,7 @@ def _get_numbered_filenames():
     # In-progress ( between monthly pubs) files are in different location ...
     # E.g. "tot.num", "pending.num", ..., ...
     files_.extend( [_ for _ in glob.glob(f'/sa/obs/*num', recursive=True) if _ not in filenames_to_ignore] )
-    
+    for _ in files_ : print(_)  
     return files_
     
 def _get_unnumbered_filenames(  ):
@@ -269,5 +269,5 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
 #----------------------------------------------------
 if __name__ == '__main__':
     save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
-    #dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
-    fix_cross_desig_duplicates(save_dir)
+    dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
+    #fix_cross_desig_duplicates(save_dir)
