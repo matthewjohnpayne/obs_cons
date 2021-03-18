@@ -204,9 +204,11 @@ def fix_cross_desig_duplicates(save_dir):
         '''
         issue_dict = {}
         for l, line in enumerate(data):
-            print('line.split(",")',line.split(","))
-            print('issue_dict',issue_dict.keys())
-            issue_dict[ line.split(",")[0] ].append( line )
+            #print('line.split(",")',line.split(","))
+            #print('issue_dict',issue_dict.keys())
+            dup_num = line.split(",")[0]
+            if dup_num not in issue_dict: issue_dict[dup_num] = []
+            issue_dict[ dup_num ].append( line )
         
         # fix
         discard, keep, notfixed = [],[],[]
