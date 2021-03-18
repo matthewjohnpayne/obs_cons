@@ -90,6 +90,7 @@ def find_duplicates(obs_dict):
     fps = list(obs_dict.keys())
     for i in range(len(fps)):
         for j in range(i+1,len(fps)):
+            print('.', end='', flush=True )
             fp1, fp2 = fps[i], fps[j]
             
             # intersecn indicates duplicate obs80-bits
