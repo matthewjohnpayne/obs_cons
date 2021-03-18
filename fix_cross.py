@@ -50,7 +50,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def split_into_groups(filepath_list, group_size = 50 ):
+def split_into_groups(filepath_list, group_size = 100 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
@@ -105,7 +105,7 @@ def find_duplicates(obs_dict):
     del ALL
     return DUP
 
-def find_cross_desig_duplicates() :
+def find_cross_desig_duplicates(save_dir) :
     duplicates = {}
     dup_file_list = []
     
@@ -137,14 +137,14 @@ def find_cross_desig_duplicates() :
             duplicates[(grp_i,grp_j)] = get_required_data(duplicated_obs80_dict)
 
             # Record the duplicates
-            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)]) )
+            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)])  , save_dir)
             
         
     return dup_file_list , duplicates
         
-def save_duplicates(i,j, duplicate_dict):
+def save_duplicates(i,j, duplicate_dict, save_dir):
     print('save_duplicates:', i,j, len(duplicate_dict))
-    dup_file = os.path.join(f'cross_des_duplicates_{i}_{j}.txt')
+    dup_file = os.path.join(save_dir , f'cross_des_duplicates_{i}_{j}.txt')
     with open( dup_file , 'w') as fh:
         for obs80bit, lst in duplicate_dict.items():
             for _ in lst:
@@ -171,7 +171,7 @@ def get_required_data(duplicate_dict):
             stdout, stderr = process.communicate()
             stdout = stdout.decode("utf-8").split('\n')[0]
  
-            out_dict[obs80bit].append(f"{i},{j},{stdout}:{filepath}")
+            out_dict[obs80bit].append(f"{i},{j},{stdout},{filepath}")
     return out_dict
 
 def fix_cross_desig_duplicates():#dup_file_list):
@@ -184,14 +184,46 @@ def fix_cross_desig_duplicates():#dup_file_list):
             
     # Loop through the files ...
     for fp in dup_file_list:
+    
         # read ...
         with open(fp,'r') as fh:
             data = fh.readlines()
+            
         # parse ...
+        '''
+        0,0,c4896K01DB2A* C2001 02 19.09477 07 59 11.94 +21 23 48.6 K08W35H  21.8 Vd@6513691:/sa/mpn/N0384001.dat
+        0,1,Y6603K08W35H  C2001 02 19.09477 07 59 11.94 +21 23 48.6          21.8 Vd~034c691:/sa/mpn/N0346001.dat
+        1,0,c4896K01DB2A  C2001 02 19.11899 07 59 11.02 +21 23 50.2 K08W35H  22.0 Vd@6513691:/sa/mpn/N0384001.dat
+        1,1,Y6603K08W35H  C2001 02 19.11899 07 59 11.02 +21 23 50.2          22.0 Vd~034c691:/sa/mpn/N0346001.dat
+        2,0,c4896K01DB2A  C2001 02 19.14238 07 59 10.07 +21 23 51.3 K08W35H  22.2 Vd@6513691:/sa/mpn/N0384001.dat
+        2,1,Y6603K08W35H  C2001 02 19.14238 07 59 10.07 +21 23 51.3          22.2 Vd~034c691:/sa/mpn/N0346001.dat
+        '''
+        issue_dict = {}
         for l, line in enumerate(data):
-            i,j,stdout,filepath = line.split(",")
+            issue_dict[ line.split(",")[0] ].append( line )
         
+        # fix
+        for k, line_list in issue_dict.items():
+            discard, keep, notfixed = decide_how_to_fix(line1,line2)
+        
+def decide_how_to_fix(line_list):
+
+    if len(line_list) == 2:
+        line1, line2 = line_list.split()
+        prov1,prov2  = line1[5:12],line2[5:12]
+        
+        # if one of the provIDs is in the later part of the other, that implies a redesignation
+        if prov1 in line2[50:]:
+            discard, keep, notfixed = [line1.split(",")[2:]], [line2.split(",")[2:]], []
+        elif prov2 in line1[50:]:
+            discard, keep, notfixed = [line1.split(",")[2:]], [line2.split(",")[2:]], []
+        else:
+            discard, keep, notfixed = [],[],line_list
+
+    else:
+        discard, keep, notfixed = [],[],line_list
 
 if __name__ == '__main__':
-    dup_file_list , duplicates = find_cross_desig_duplicates()
-    #fix_cross_desig_duplicates(duplicates)
+    save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
+    dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
+    #fix_cross_desig_duplicates(save_dir)
