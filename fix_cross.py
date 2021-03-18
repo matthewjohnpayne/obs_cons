@@ -69,7 +69,7 @@ def load_grp_obs(filepath_list):
     obs_dict = {}
     print('...loading...')
     for i, fp in enumerate(filepath_list):
-        print('.', end=', ', flush=True )
+        print('.', end='', flush=True )
         # Read the file contents into a dictionary
         with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
@@ -85,7 +85,7 @@ def find_duplicates(obs_dict):
     # Loop through all of the dictionaries that have been loaded
     print('...finding duplicates...')
     for fp, fp_dict in obs_dict.items():
-        print('.', end=', ', flush=True )
+        print('.', end='', flush=True )
 
         # intersecn indicates duplicate obs80-bits
         intersecn = fp_dict.keys() & ALL.keys()
@@ -140,7 +140,7 @@ def find_cross_desig_duplicates(save_dir) :
             duplicates[(grp_i,grp_j)] = get_required_data(duplicated_obs80_dict)
 
             # Record the duplicates
-            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)])  , save_dir)
+            dup_file_list.append( save_duplicates(i,j, duplicates[(grp_i,grp_j)]  , save_dir)
             
         
     return dup_file_list , duplicates
