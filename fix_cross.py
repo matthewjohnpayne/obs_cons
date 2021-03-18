@@ -89,6 +89,7 @@ def find_duplicates(obs_dict):
     print('...finding duplicates...')
     fps = list(obs_dict.keys())
     for i in range(len(fps)):
+        print('\t', f'{i}/{len(fps)}' , end=', ', flush=True )
         for j in range(i+1,len(fps)):
             print('.', end='', flush=True )
             fp1, fp2 = fps[i], fps[j]
@@ -100,7 +101,7 @@ def find_duplicates(obs_dict):
             for k in intersecn:
                 DUP[k].append(obs_dict[fp1][k])
                 DUP[k].append(obs_dict[fp2][k])
-                
+        print()
     print(f'\n N_Dup= {len(DUP)}')
 
     '''
