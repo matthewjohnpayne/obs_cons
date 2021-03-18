@@ -207,15 +207,16 @@ def fix_cross_desig_duplicates(save_dir):
         '''
         issue_dict = {}
         for l, line in enumerate(data):
-            #print('line.split(",")',line.split(","))
-            #print('issue_dict',issue_dict.keys())
+
             dup_num = line.split(",")[0]
             if dup_num not in issue_dict: issue_dict[dup_num] = []
             issue_dict[ dup_num ].append( line )
         
         # fix
         for k, line_list in issue_dict.items():
+        
             d, k, n = decide_how_to_fix(line_list)
+            
             discard.extend(d)
             keep.extend(k)
             notfixed.extend(n)
@@ -226,8 +227,7 @@ def fix_cross_desig_duplicates(save_dir):
             
 def decide_how_to_fix(line_list):
     ''' fix a list of duplicates (where possible) '''
-    print('line_list', line_list)
-    print(len(line_list))
+
     if len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
         obs1, obs2   = line1[2], line2[2]
@@ -241,9 +241,9 @@ def decide_how_to_fix(line_list):
         print(prov2 in obs1[50:])
         # if one of the provIDs is in the later part of the other, that implies a redesignation
         if prov1 in obs2[50:]:
-            discard, keep, notfixed = [line1.split(",")[2:]], [line2.split(",")[2:]], []
+            discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
         elif prov2 in obs1[50:]:
-            discard, keep, notfixed = [line1.split(",")[2:]], [line2.split(",")[2:]], []
+            discard, keep, notfixed = [f'{obs2},{f2}'], [f'{obs1},{f1}'], []
         else:
             discard, keep, notfixed = [],[],line_list
 
