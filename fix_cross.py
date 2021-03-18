@@ -50,7 +50,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def split_into_groups(filepath_list, group_size = 10 ):
+def split_into_groups(filepath_list, group_size = 50 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
@@ -125,12 +125,12 @@ def find_cross_desig_duplicates(save_dir) :
         for j in range(i+1,len(grp_names)):
             grp_i,grp_j = grp_names[i], grp_names[j]
             
-            print(grp_i,grp_j)
+            print('\n',grp_i,grp_j)
 
             # load the contents of all files in each grp into a dict
             obs_dict_grp = load_grp_obs( group_dict[grp_i] )
             obs_dict_grp.update( load_grp_obs( group_dict[grp_j] ) )
-            print("\n N_loaded = ", len(obs_dict_grp) )
+            print("N_loaded = ", len(obs_dict_grp) )
             
             # I don't think we need to bother finding duplicates within an individual group
             # Instead just find any duplicates anywhere across the loaded contents
