@@ -231,7 +231,12 @@ def decide_how_to_fix(line_list):
     if len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
         prov1,prov2  = line1[5:12],line2[5:12]
-        
+        print(line1)
+        print(line2)
+        print(prov1)
+        print(prov2)
+        print(prov1 in line2[50:])
+        print(prov2 in line1[50:])
         # if one of the provIDs is in the later part of the other, that implies a redesignation
         if prov1 in line2[50:]:
             discard, keep, notfixed = [line1.split(",")[2:]], [line2.split(",")[2:]], []
