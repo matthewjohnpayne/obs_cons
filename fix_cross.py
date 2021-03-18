@@ -68,7 +68,7 @@ def load_grp_obs(filepath_list):
     ''' load the contents of all files into a dict '''
     obs_dict = {}
     for i, fp in enumerate(filepath_list):
-        print(i, end=', ', flush=True )
+        #sprint(i, end=', ', flush=True )
         # Read the file contents into a dictionary
         with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
@@ -100,8 +100,8 @@ def find_duplicates(obs_dict):
         
         # update the overall dictionary with the duplicates
         ALL.update(DUP)
-        print(f'\t N_All= {len(ALL)}, N_Dup= {len(DUP)}')
         
+    print(f'\t N_All= {len(ALL)}, N_Dup= {len(DUP)}')
     del ALL
     return DUP
 
