@@ -238,6 +238,8 @@ def decide_how_to_fix(line_list):
 
     else:
         discard, keep, notfixed = [],[],line_list
+        
+    return discard, keep, notfixed
 
 def write_attempted_fixes(discard, keep, notfixed , save_dir):
     ''' write out the results of our attempt fix'''
