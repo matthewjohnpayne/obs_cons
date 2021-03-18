@@ -182,6 +182,8 @@ def get_required_data(duplicate_dict):
 # Functions to *FIND*  cross-desig duplicates ...
 #----------------------------------------------------
 def fix_cross_desig_duplicates(save_dir):
+    ''' fix_cross_desig_duplicates that were previously identified using find_cross_desig_duplicates '''
+    discard, keep, notfixed = [],[],[]
 
     # Make a list of filenames to loop through
     dup_file_list = glob.glob( save_dir + '/cross_des_duplicates*')
@@ -212,7 +214,6 @@ def fix_cross_desig_duplicates(save_dir):
             issue_dict[ dup_num ].append( line )
         
         # fix
-        discard, keep, notfixed = [],[],[]
         for k, line_list in issue_dict.items():
             d, k, n = decide_how_to_fix(line_list)
             discard.extend(d)
