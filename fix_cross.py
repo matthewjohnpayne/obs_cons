@@ -226,6 +226,8 @@ def fix_cross_desig_duplicates(save_dir):
             
 def decide_how_to_fix(line_list):
     ''' fix a list of duplicates (where possible) '''
+    print('line_list', line_list)
+    print(len(line_list))
     if len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
         prov1,prov2  = line1[5:12],line2[5:12]
