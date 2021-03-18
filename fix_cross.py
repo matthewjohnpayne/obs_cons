@@ -117,7 +117,6 @@ def find_cross_desig_duplicates() :
     
     # Loop over Groups
     grp_names = list(group_dict.keys())
-    print('grp_names[1:] = ',grp_names[1:])
     for i in range(len(grp_names)):
         for j in range(i+1,len(grp_names)):
             grp_i,grp_j = grp_names[i], grp_names[j]
@@ -177,11 +176,21 @@ def get_required_data(duplicate_dict):
 
 def fix_cross_desig_duplicates():#dup_file_list):
 
+    # Make a list of filenames to loop through
     dup_file_list = []
     for i in range(12):
         for j in range(i+1,12):
             dup_file_list.append( 'cross_des_duplicates_{i}_{j}.txt' )
             
+    # Loop through the files ...
+    for fp in dup_file_list:
+        # read ...
+        with open(fp,'r') as fh:
+            data = fh.readlines()
+        # parse ...
+        for l, line in enumerate(data):
+            i,j,stdout,filepath = line.split(",")
+        
 
 if __name__ == '__main__':
     dup_file_list , duplicates = find_cross_desig_duplicates()
