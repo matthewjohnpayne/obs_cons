@@ -188,7 +188,7 @@ def fix_cross_desig_duplicates(save_dir):
 
     # Loop through the files ...
     print('Attempting to fix ...' )
-        for fp in dup_file_list:
+    for fp in dup_file_list:
         print(fp)
         # read ...
         with open(fp,'r') as fh:
