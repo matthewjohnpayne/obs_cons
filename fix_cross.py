@@ -87,13 +87,29 @@ def find_duplicates(obs_dict):
     
     # Loop through all of the dictionaries that have been loaded
     print('...finding duplicates...')
+    fps = list(obs_dict.keys())
+    for i in range(len(fps)):
+        for j in range(i+1,len(fps)):
+            fp1, fp2 = fps[i], fps[j]
+            
+            # intersecn indicates duplicate obs80-bits
+            intersecn = obs_dict[fp1].keys() & obs_dict[fp2].keys()
+
+            # store duplicates with list of file-paths
+            for k in intersecn:
+                DUP[k].append(obs_dict[fp1][k])
+                DUP[k].append(obs_dict[fp2][k])
+                
+    print(f'\n N_Dup= {len(DUP)}')
+
+    '''
     for fp, fp_dict in obs_dict.items():
         print('.', end='', flush=True )
 
         # intersecn indicates duplicate obs80-bits
         intersecn = fp_dict.keys() & ALL.keys()
 
-        # store duplicates with list of file-integers
+        # store duplicates with list of file-paths
         for k in intersecn:
             DUP[k].append(fp_dict[k])
             if isinstance(ALL[k], str):
@@ -106,8 +122,9 @@ def find_duplicates(obs_dict):
         
         # update the overall dictionary with the duplicates
         ALL.update(DUP)
-        
+    
     print(f'\n N_All= {len(ALL)}, N_Dup= {len(DUP)}')
+    '''
     del ALL
     return DUP
 
@@ -184,7 +201,11 @@ def get_required_data(duplicate_dict):
             out_dict[obs80bit].append(f"{i},{j},{stdout},{filepath}")
     return out_dict
 
-# Functions to *FIND*  cross-desig duplicates ...
+
+
+
+
+# Functions to *FIX*  cross-desig duplicates ...
 #----------------------------------------------------
 def fix_cross_desig_duplicates(save_dir):
     ''' fix_cross_desig_duplicates that were previously identified using find_cross_desig_duplicates '''
