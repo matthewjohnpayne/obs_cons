@@ -185,7 +185,7 @@ def fix_cross_desig_duplicates(save_dir):
 
     # Make a list of filenames to loop through
     dup_file_list = glob.glob( save_dir + 'cross_des_duplicates*')
-
+    print('dup_file_list',dup_file_list )
     # Loop through the files ...
     for fp in dup_file_list:
     
