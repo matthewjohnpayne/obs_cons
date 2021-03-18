@@ -274,5 +274,5 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
 #----------------------------------------------------
 if __name__ == '__main__':
     save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
-    #dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
-    fix_cross_desig_duplicates(save_dir)
+    dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
+    #fix_cross_desig_duplicates(save_dir)
