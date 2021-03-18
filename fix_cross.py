@@ -12,7 +12,8 @@ import glob
 from collections import Mapping, Container, Counter, defaultdict
 import subprocess
 
-# Functions to find & fix cross-desig duplicates ...
+# Functions to *FIND*  cross-desig duplicates ...
+#----------------------------------------------------
 def _get_filenames():
     ''' get a dict containing all the filenames we want to work with ...'''
     
@@ -178,14 +179,13 @@ def get_required_data(duplicate_dict):
             out_dict[obs80bit].append(f"{i},{j},{stdout},{filepath}")
     return out_dict
 
-def fix_cross_desig_duplicates():#dup_file_list):
+# Functions to *FIND*  cross-desig duplicates ...
+#----------------------------------------------------
+def fix_cross_desig_duplicates(save_dir):
 
     # Make a list of filenames to loop through
-    dup_file_list = []
-    for i in range(12):
-        for j in range(i+1,12):
-            dup_file_list.append( 'cross_des_duplicates_{i}_{j}.txt' )
-            
+    dup_file_list = glob.glob( save_dir + 'cross_des_duplicates*')
+
     # Loop through the files ...
     for fp in dup_file_list:
     
@@ -207,11 +207,19 @@ def fix_cross_desig_duplicates():#dup_file_list):
             issue_dict[ line.split(",")[0] ].append( line )
         
         # fix
+        discard, keep, notfixed = [],[],[]
         for k, line_list in issue_dict.items():
-            discard, keep, notfixed = decide_how_to_fix(line1,line2)
+            d, k, n = decide_how_to_fix(line1,line2)
+            discard.extend(d)
+            keep.extend(k)
+            notfixed.extend(n)
+            
+    # print/write
+    write_attempted_fixes(discard, keep, notfixed , save_dir)
         
+            
 def decide_how_to_fix(line_list):
-
+    ''' fix a list of duplicates (where possible) '''
     if len(line_list) == 2:
         line1, line2 = line_list.split()
         prov1,prov2  = line1[5:12],line2[5:12]
@@ -227,7 +235,27 @@ def decide_how_to_fix(line_list):
     else:
         discard, keep, notfixed = [],[],line_list
 
+def write_attempted_fixes(discard, keep, notfixed , save_dir):
+    ''' write out the results of our attempt fix'''
+    
+    # Lines that we want to delete/discard
+    discard_file = os.path.join(save_dir , 'to_be_deleted.txt')
+    print(f'There are {len(discard)} observations in {discard_file} to be deleted')
+    with open(discard_file, 'w') as fh:
+        for line in discard:
+            fh.write( line + '' if line[-1]=='\n' else '\n')
+            
+    # Lines that we don't know how to fix
+    not_fixed = os.path.join(save_dir , 'not_fixed.txt')
+    print(f'There are {len(notfixed)} observations in {not_fixed} that I do not know how to fix')
+    with open(not_fixed, 'w') as fh:
+        for line in notfixed:
+            fh.write( line + '' if line[-1]=='\n' else '\n')
+
+
+# command-line running ...
+#----------------------------------------------------
 if __name__ == '__main__':
     save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
-    dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
-    #fix_cross_desig_duplicates(save_dir)
+    #dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
+    fix_cross_desig_duplicates(save_dir)
