@@ -50,7 +50,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def split_into_groups(filepath_list, group_size = 100 ):
+def split_into_groups(filepath_list, group_size = 10 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
@@ -67,8 +67,9 @@ def split_into_groups(filepath_list, group_size = 100 ):
 def load_grp_obs(filepath_list):
     ''' load the contents of all files into a dict '''
     obs_dict = {}
+    print('...loading...')
     for i, fp in enumerate(filepath_list):
-        #sprint(i, end=', ', flush=True )
+        print('.', end=', ', flush=True )
         # Read the file contents into a dictionary
         with open(fp,'r') as fh:
             # NB: This will overwrite/ignore any duplicates that occur within the same file
@@ -82,7 +83,9 @@ def find_duplicates(obs_dict):
     DUP = defaultdict(list)
     
     # Loop through all of the dictionaries that have been loaded
+    print('...finding duplicates...')
     for fp, fp_dict in obs_dict.items():
+        print('.', end=', ', flush=True )
 
         # intersecn indicates duplicate obs80-bits
         intersecn = fp_dict.keys() & ALL.keys()
@@ -101,7 +104,7 @@ def find_duplicates(obs_dict):
         # update the overall dictionary with the duplicates
         ALL.update(DUP)
         
-    print(f'\t N_All= {len(ALL)}, N_Dup= {len(DUP)}')
+    print(f'\n N_All= {len(ALL)}, N_Dup= {len(DUP)}')
     del ALL
     return DUP
 
@@ -121,7 +124,7 @@ def find_cross_desig_duplicates(save_dir) :
         for j in range(i+1,len(grp_names)):
             grp_i,grp_j = grp_names[i], grp_names[j]
             
-            print(grp_i,grp_j,' ... loading...')
+            print(grp_i,grp_jx)
 
             # load the contents of all files in each grp into a dict
             obs_dict_grp = load_grp_obs( group_dict[grp_i] )
