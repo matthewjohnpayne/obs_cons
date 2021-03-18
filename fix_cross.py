@@ -216,9 +216,7 @@ def fix_cross_desig_duplicates(save_dir):
         for k, line_list in issue_dict.items():
         
             d, k, n = decide_how_to_fix(line_list)
-            print('d',d)
-            print('k',k)
-            print('n',n)
+
             discard.extend(d)
             keep.extend(k)
             notfixed.extend(n)
@@ -235,12 +233,7 @@ def decide_how_to_fix(line_list):
         obs1, obs2   = line1.split(",")[2], line2.split(",")[2]
         f1, f2       = line1.split(",")[3], line2.split(",")[3]
         prov1,prov2  = obs1[5:12],obs2[5:12]
-        print(line1)
-        print(line2)
-        #print(prov1)
-        #print(prov2)
-        #print(prov1 in obs2[50:])
-        #print(prov2 in obs1[50:])
+
         # if one of the provIDs is in the later part of the other, that implies a redesignation
         if prov1 in obs2[50:]:
             discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
