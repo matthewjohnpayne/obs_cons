@@ -213,7 +213,7 @@ def fix_cross_desig_duplicates(save_dir):
         # fix
         discard, keep, notfixed = [],[],[]
         for k, line_list in issue_dict.items():
-            d, k, n = decide_how_to_fix(line1,line2)
+            d, k, n = decide_how_to_fix(line_list)
             discard.extend(d)
             keep.extend(k)
             notfixed.extend(n)
