@@ -232,8 +232,8 @@ def decide_how_to_fix(line_list):
 
     if len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
-        obs1, obs2   = line1[2], line2[2]
-        f1, f2       = line1[3], line2[3]
+        obs1, obs2   = line1.split(",")[2], line2.split(",")[2]
+        f1, f2       = line1.split(",")[3], line2.split(",")[3]
         prov1,prov2  = obs1[5:12],obs2[5:12]
         print(line1)
         print(line2)
