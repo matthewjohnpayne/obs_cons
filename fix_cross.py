@@ -51,7 +51,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def split_into_groups(filepath_list, group_size = 50 ):
+def split_into_groups(filepath_list, group_size = 30 ):
     ''' Split files into "groups" of filenames'''
     group_dict = {}
     for i, filepath in enumerate(filepath_list):
@@ -63,6 +63,7 @@ def split_into_groups(filepath_list, group_size = 50 ):
         group_dict[grp_num].append(filepath)
     
     print(f"split_into_groups: N_groups = {len(group_dict)}, N_files = {len(filepath_list)}")
+    print(f"\t expect ~ {len(group_dict)}^2/2 ~ {(len(group_dict)^2)/2} sets of runs ...")
     return group_dict
 
 def load_grp_obs(filepath_list):
@@ -123,7 +124,8 @@ def find_cross_desig_duplicates(save_dir) :
     # Loop over Groups
     grp_names = list(group_dict.keys())
     for i in range(len(grp_names)):
-        for j in range(i+1,len(grp_names)):
+        for j in range(11,len(grp_names)):
+            ''' There is some kind of problem / stall with grp_i,grp_j=0,11'''
             grp_i,grp_j = grp_names[i], grp_names[j]
             
             print('\n',grp_i,grp_j)
@@ -163,7 +165,8 @@ def get_required_data(duplicate_dict):
     out_dict = {}
     for i, obs80bit in enumerate(list(duplicate_dict.keys())):
         filepath_lst = duplicate_dict[obs80bit]
-        
+        print('get_required_data...')
+        print(i, obs80bit)
         out_dict[obs80bit] = []
         for j,filepath in enumerate(filepath_lst):
             # Grep in the original file for the obs80 bit
@@ -175,7 +178,9 @@ def get_required_data(duplicate_dict):
             )
             stdout, stderr = process.communicate()
             stdout = stdout.decode("utf-8").split('\n')[0]
- 
+            print(command)
+            print(stdout)
+            print()
             out_dict[obs80bit].append(f"{i},{j},{stdout},{filepath}")
     return out_dict
 
@@ -269,5 +274,5 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
 #----------------------------------------------------
 if __name__ == '__main__':
     save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
-    dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
-    #fix_cross_desig_duplicates(save_dir)
+    #dup_file_list , duplicates = find_cross_desig_duplicates( save_dir )
+    fix_cross_desig_duplicates(save_dir)
