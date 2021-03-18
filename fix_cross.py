@@ -11,6 +11,7 @@ import sys, os
 import glob
 from collections import Mapping, Container, Counter, defaultdict
 import subprocess
+from joblib import Parallel, delayed
 
 # Functions to *FIND*  cross-desig duplicates ...
 #----------------------------------------------------
@@ -79,6 +80,19 @@ def load_grp_obs(filepath_list):
     print()
     return obs_dict
 
+def intersecn_func(d1,d2):
+    DUP = defaultdict(list)
+
+    # intersecn indicates duplicate obs80-bits
+    intersecn = d1.keys() & d2.keys()
+
+    # store duplicates with list of file-paths
+    for k in intersecn:
+        DUP[k].append(d1[k])
+        DUP[k].append(d2[k])
+    
+    return DUP
+
 def find_duplicates(obs_dict):
     
     # We will read all data into a single big dictionary
@@ -88,11 +102,14 @@ def find_duplicates(obs_dict):
     # Loop through all of the dictionaries that have been loaded
     print('...finding duplicates...')
     fps = list(obs_dict.keys())
+    
+    '''
     for i in range(len(fps)):
         print('\t', f'{i}/{len(fps)}' , end=', ', flush=True )
         for j in range(i+1,len(fps)):
             print('.', end='', flush=True )
             fp1, fp2 = fps[i], fps[j]
+            
             
             # intersecn indicates duplicate obs80-bits
             intersecn = obs_dict[fp1].keys() & obs_dict[fp2].keys()
@@ -101,7 +118,19 @@ def find_duplicates(obs_dict):
             for k in intersecn:
                 DUP[k].append(obs_dict[fp1][k])
                 DUP[k].append(obs_dict[fp2][k])
+            
+            
         print()
+    '''
+    
+    name_pairs = []
+    for i in range(len(fps)):
+        for j in range(i+1,len(fps)):
+            name_pairs.append( (fps[i], fps[j] ) )
+    results = Parallel(n_jobs=8)(delayed(intersecn_func)(name_pair[0],name_pair[1]) for name_pair in name_pairs)
+    for _ in results:
+        print(_)
+        DUP.update(_)
     print(f'\n N_Dup= {len(DUP)}')
 
     '''
