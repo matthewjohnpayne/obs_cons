@@ -34,8 +34,8 @@ def _get_numbered_filenames():
     
     # In-progress ( between monthly pubs) files are in different location ...
     # E.g. "tot.num", "pending.num", ..., ...
-    files_.extend( [_ for _ in glob.glob(f'/sa/obs/*num', recursive=True) if _ not in filenames_to_ignore] )
-    for _ in files_ : print(_)  
+    #files_.extend( [_ for _ in glob.glob(f'/sa/obs/*num', recursive=True) if _ not in filenames_to_ignore] )
+
     return files_
     
 def _get_unnumbered_filenames(  ):
@@ -46,7 +46,7 @@ def _get_unnumbered_filenames(  ):
     # ---------------- UN-numbered FILES -----------
     files_ = []
     files_.extend( [_ for _ in glob.glob(f'/sa/mpu/*dat', recursive=True) if _ not in filenames_to_ignore] )
-    files_.extend( [_ for _ in glob.glob(f'/sa/obs/*unn', recursive=True) if _ not in filenames_to_ignore] )
+    #files_.extend( [_ for _ in glob.glob(f'/sa/obs/*unn', recursive=True) if _ not in filenames_to_ignore] )
 
     return files_
 
