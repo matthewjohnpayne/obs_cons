@@ -295,7 +295,6 @@ def decide_how_to_fix(line_list):
 
     if len( [ _ for _ in line_list if "/sa/mpu/u" in _] ):
         # This is a lowercase file: ignore
-        print( [ _ for _ in line_list if "/sa/mpu/u" in _] )
         discard, keep, notfixed = [],[],[]
     elif len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
