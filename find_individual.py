@@ -95,11 +95,11 @@ def find_individual_problems_in_one_file(filepath , save_dir):
         obs = fh.readlines()
         
     # (1) Missing pubn references
-    missing_pub_ref = _check_refs()
+    missing_pub_ref = _check_refs(obs)
     
     # (2) Missing notes
     # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
-    missing_notes = _check_notes()
+    missing_notes = _check_notes(obs)
     
     # (3) ... other problems we come across ...
     
