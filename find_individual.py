@@ -4,6 +4,8 @@ Code to find problems with *individual* lines in obs80 files
  
 Does not fix, just prints the problems out to file
 
+MJP 2021-03-19
+
 '''
 
 # third party imports
@@ -117,13 +119,14 @@ def _check_o80parse(deduped_obs_list):
             else:
                 obs80.parseOpt(obs80str)
         except:
-            print( obs80str)
             parse_problems.append( obs80str )
             
     return parse_problems
 
 def _check_obscode(obs):
-
+    ''' Look for obvious problems with obscodes
+    E.g. obscodes that dont exist or are not allowed
+    '''
     # list to hold any problematic observations
     obscode_problems = []
     
@@ -138,7 +141,9 @@ def _check_obscode(obs):
 
 
 def _check_datetime(obs):
-
+    ''' Look for obvious problems with datetime
+    E.g. days that are > than the number of days in the month
+    '''
     # list to hold any problematic observations
     datetime_problems = []
     
@@ -172,6 +177,9 @@ def _check_datetime(obs):
     return datetime_problems
 
 def _check_radec(obs):
+    ''' Look for obvious problems with ra/dec
+    E.g. mins/secs that are > 60 
+    '''
 
     # list to hold any problematic observations
     radec_problems = []
@@ -186,15 +194,15 @@ def _check_radec(obs):
                 ra_hr   = float(ra[0:2])
                 dec_deg = float(dec[1:3])
                 
-                ra_mn = float(RA[3:5])
+                ra_mn = float(ra[3:5])
                 try:
-                    ra_sec = float(RA[6:])
+                    ra_sec = float(ra[6:])
                 except ValueError:
                     ra_sec = 0
 
-                dec_mn = float(Dec[4:6])
+                dec_mn = float(dec[4:6])
                 try:
-                    dec_sec = float(Dec[7:])
+                    dec_sec = float(dec[7:])
                 except ValueError:
                     dec_sec = 0
 
@@ -213,6 +221,7 @@ def _check_radec(obs):
     
 def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     '''
+    Print problems to file so that they can be examined and fixed later
     '''
     with open( os.path.join(save_dir , 'individual_'+outfilename) , 'a') as fh:
         print('\t', os.path.join(save_dir , outfilename))
@@ -222,6 +231,9 @@ def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
             
     
 def find_individual_problems_in_one_file(filepath , save_dir):
+    '''
+    Examine a primary data file for all of the 'individual line' problems that I can think of
+    '''
     print(filepath)
     
     # read the data
@@ -264,7 +276,7 @@ def find_all(save_dir):
 
     # Process each file
     # *** LIMITED TO ONE FILE WHILE DEVELOPING ***
-    for filepath in filepath_list[:11]:
+    for filepath in filepath_list[:22]:
     
         # find the problems
         find_individual_problems_in_one_file(filepath , save_dir)
