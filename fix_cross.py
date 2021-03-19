@@ -299,7 +299,8 @@ def decide_how_to_fix(line_list):
         prov1,prov2  = obs1[5:12],obs2[5:12]
 
         # if one of the provIDs is in the later part of the other, that implies a redesignation
-        print(obs1, obs2)
+        print(obs1)
+        print(obs2)
         print(prov1 in obs2[50:])
         print(prov2 in obs1[50:])
         if prov1 in obs2[50:]:
