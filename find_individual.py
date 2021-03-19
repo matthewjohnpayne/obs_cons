@@ -4,6 +4,11 @@ Code to find problems with *individual* lines
  Does not fix
 '''
 
+# third party imports
+#-----------------------
+import sys, os 
+
+
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
 def _get_filenames():
