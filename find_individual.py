@@ -79,8 +79,9 @@ def _check_notes(deduped_obs_list):
     pub_ref_problems = []
     
     for obs80str in deduped_obs_list:
-        # the notes are in posn ??:?? of the obs80 string
-        pub_ref = obs80str[72:77]
+        # the notes are in posn 15 (python 14) of the obs80 string
+        # https://www.minorplanetcenter.net/iau/info/OpticalObs.html
+        pub_ref = obs80str[14]
         
         # the single character should NOT be white space.
         if len(pub_ref.strip()) != 1 :
