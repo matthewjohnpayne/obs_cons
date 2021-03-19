@@ -127,7 +127,7 @@ def _check_obscode(obs):
     obscode_problems = []
     
     for obs80str in obs:
-        if line[14] not in ['s','v','r']:
+        if obs80str[14] not in ['s','v','r']:
             obsCode = obs80str[77:80]
         
             if obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict:
@@ -142,7 +142,7 @@ def _check_datetime(obs):
     datetime_problems = []
     
     for obs80str in obs:
-        if line[14] not in ['s','v','r']:
+        if obs80str[14] not in ['s','v','r']:
             dt = obs80str[15:32]
             
             yr = dt[0:4]
@@ -176,7 +176,7 @@ def _check_radec(obs):
     radec_problems = []
     
     for obs80str in obs:
-        if line[14] not in ['s','v','r']:
+        if obs80str[14] not in ['s','v','r']:
             try:
                 # extract ra, dec strings
                 ra, dec = obs80str[32:44], obs80str[44:56]
