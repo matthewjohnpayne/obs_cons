@@ -113,7 +113,7 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     # (3) ... other problems we come across ...
     
     # write out the problems
-    for filename, obslist in zip(
+    for filename, obs_list in zip(
                     ['missing_pub_ref','missing_notes'],
                     [missing_pub_ref, missing_notes]
                     ):
