@@ -8,7 +8,7 @@ Code to find problems with *individual* lines
 #-----------------------
 import sys, os
 import glob
-import math 
+import math
 
 # local imports
 # -----------------
@@ -163,7 +163,6 @@ def _check_datetime(obs):
         except:
             datetime_problems.append(obs80str)
         
-        sys.exit()
 
     return datetime_problems
 
