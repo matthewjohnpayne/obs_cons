@@ -6,7 +6,8 @@ Code to find problems with *individual* lines
 
 # third party imports
 #-----------------------
-import sys, os 
+import sys, os
+import glob 
 
 
 # Functions to *FIND*  individual problems ...
