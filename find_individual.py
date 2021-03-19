@@ -64,7 +64,7 @@ def _check_refs(deduped_obs_list):
         # there should be 5 non-white space characters. If not, flag as a problem
         # - perhaps this logic will turn out to be wrong for ancient pubns.
         # C'est la vie
-        if len(pub_ref.strip) != 5 :
+        if len(pub_ref.strip()) != 5 :
             pub_ref_problems.append(obs80str)
             
     return pub_ref_problems
@@ -83,7 +83,7 @@ def _check_notes(deduped_obs_list):
         pub_ref = obs80str[72:77]
         
         # the single character should NOT be white space.
-        if len(pub_ref.strip) != 1 :
+        if len(pub_ref.strip()) != 1 :
             pub_ref_problems.append(obs80str)
             
     return pub_ref_problems
