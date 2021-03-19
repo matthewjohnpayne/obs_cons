@@ -1,6 +1,6 @@
 '''
-Code to find problems with *individual* lines
- - Not duplicates
+Code to find problems at the object level
+E.g.: No asterisk
  Does not fix
 '''
 
@@ -9,10 +9,6 @@ Code to find problems with *individual* lines
 import sys, os
 import glob
 
-# local imports
-# -----------------
-sys.path.insert(0,'/share/apps/obs80/')
-import obs80
 
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
@@ -53,13 +49,13 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def _check_refs(deduped_obs_list):
+def _check_asterisk(deduped_obs_list):
     '''
-    # Missing pubn references
+    # Missing asterisk
     '''
     
     # list to hold any problematic observations
-    pub_ref_problems = []
+    asterisk_problems = []
     
     for obs80str in deduped_obs_list:
         # the pub-ref is in posns 72:77 of the obs80 string
@@ -73,82 +69,56 @@ def _check_refs(deduped_obs_list):
             
     return pub_ref_problems
 
-def _check_notes(deduped_obs_list):
-    '''
-    # Missing notes
-    # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
-    '''
-    
-    # list to hold any problematic observations
-    pub_ref_problems = []
-    
-    for obs80str in deduped_obs_list:
-        # the notes are in posn 15 (python 14) of the obs80 string
-        # they are not supposed to be blank: P   Photographic (default if column is blank)
-        # https://www.minorplanetcenter.net/iau/info/OpticalObs.html
-        pub_ref = obs80str[14]
-        
-        # the single character should NOT be white space.
-        if len(pub_ref.strip()) != 1 :
-            pub_ref_problems.append(obs80str)
-            
-    return pub_ref_problems
 
-def _check_o80parse(deduped_obs_list):
-    '''
-    # Will Sonia's obs80 code parse it?
-    '''
-    
-    # list to hold any problematic observations
-    parse_problems = []
-    
-    for obs80str in deduped_obs_list:
-        try:
-            # ignore sat/rov/radar lines
-            if obs80str[14] in 'srvSRV':
-                pass
-            else:
-                parseOpt(obs80str)
-        except:
-            parse_problems.append( obs80str )
-            
-    return parse_problems
-
-
-def save_problems_to_file(save_dir , filename , obs_list):
+def save_problems_to_file(save_dir , outfilename , desig_list, filepath):
     '''
     '''
-    with open( os.path.join(save_dir , filename) , 'w') as fh:
-        print('\t', os.path.join(save_dir , filename))
-        for obs in obs_list:
-            fh.write(obs)
+    with open( os.path.join(save_dir , outfilename) , 'w') as fh:
+        print('\t', os.path.join(save_dir , outfilename))
+        for desig in desig_list:
+            fh.write(f'{desig}, {filepath}')
             
     
-def find_individual_problems_in_one_file(filepath , save_dir):
+def find_object_level_problems_in_one_file(filepath , save_dir):
     print(filepath)
+    filename = filepath.split("/")[-1]
     
     # read the data
     with open(filepath,'r') as fh:
         obs = fh.readlines()
         
-    # (1) Missing pubn references
-    missing_pub_ref = _check_refs(obs)
+    # split by object
+    object_obs_dict = {}
+    for l,line in enumerate(obs):
+        
+        # extract designation
+        desig = line[:5] if filename[0] == "N" else line[5:12]
+        desig = desig.strip()
+        assert len(desig) > 3
+        
+        # ensure there is a list to append to
+        if desig not in object_obs_dict:
+            object_obs_dict[desig]=[]
+        
+        # append obs
+        object_obs_dict[desig].append(line)
+        
+    # Loop and fix ...
+    missing_asterisk = []
+    for desig, obs_list in object_obs_dict.items():
     
-    # (2) Missing notes
-    # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
-    missing_notes = _check_notes(obs)
+        # (1) Missing asterisk
+        if _missing_asterisk(obs_list):
+            missing_asterisk.append(desig)
     
-    # (3) Will not parse using Sonia's obs80 code
-    parse_problems = _check_o80parse(deduped_obs_list)
-    
-    # (4) ... other problems we come across ...
+        # (2)  ... other problems we come across ...
     
     # write out the problems
-    for filename, obs_list in zip(
-                    ['missing_pub_ref','missing_notes','parse_problems'],
-                    [missing_pub_ref,   missing_notes,  parse_problems]
+    for outfilename, desig_list in zip(
+                    ['missing_asterisk'],
+                    [missing_asterisk]
                     ):
-        save_problems_to_file(save_dir , filename , obs_list)
+        save_problems_to_file(save_dir , outfilename , desig_list, filepath)
 
 
 def find_all(save_dir):

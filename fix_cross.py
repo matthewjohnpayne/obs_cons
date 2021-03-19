@@ -46,7 +46,7 @@ def _get_unnumbered_filenames(  ):
 
     # ---------------- UN-numbered FILES -----------
     files_ = []
-    files_.extend( [_ for _ in glob.glob(f'/sa/mpu/*dat', recursive=True) if _ not in filenames_to_ignore] )
+    files_.extend( [_ for _ in glob.glob(f'/sa/mpu/U*dat', recursive=True) if _ not in filenames_to_ignore] )
     #files_.extend( [_ for _ in glob.glob(f'/sa/obs/*unn', recursive=True) if _ not in filenames_to_ignore] )
 
     return files_
