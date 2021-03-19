@@ -299,14 +299,6 @@ def decide_how_to_fix(line_list):
         prov1,prov2  = obs1[5:12].strip(),obs2[5:12].strip()
 
         # if one of the provIDs is in the later part of the other, that implies a redesignation
-        print(obs1)
-        print(obs2)
-        print(prov1)
-        print(prov2)
-        print(obs1[50:70])
-        print(obs2[50:70])
-        print(prov1 != '' and prov1 in obs2[50:70])
-        print(prov2 != '' and prov2 in obs1[50:70])
         if   prov1 != '' and prov1 in obs2[50:]:
             discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
         elif prov2 != '' and prov2 in obs1[50:]:
