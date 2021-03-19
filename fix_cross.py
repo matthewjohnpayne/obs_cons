@@ -280,7 +280,7 @@ def fix_cross_desig_duplicates(save_dir):
         for k, line_list in issue_dict.items():
         
             d, k, n = decide_how_to_fix(line_list)
-            sys.exit()
+            
             discard.extend(d)
             keep.extend(k)
             notfixed.extend(n)
