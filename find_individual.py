@@ -174,11 +174,15 @@ def _check_radec(obs):
     radec_problems = []
     
     for obs80str in obs:
-        ra, dec = obs80str[32:44], obs80str[44:56]
-        
         try:
+            # extract ra, dec strings
+            ra, dec = obs80str[32:44], obs80str[44:56]
+            
+            # get ra, dec floats
             ra_hr   = float(ra[0:2])
             dec_deg = float(dec[1:3])
+            
+            # check values ...
             assert ra_hr < 24.0
             assert dec_deg > -90. and dec_deg < 90.
         except:
@@ -238,7 +242,7 @@ def find_all(save_dir):
 
     # Process each file
     # *** LIMITED TO ONE FILE WHILE DEVELOPING ***
-    for filepath in filepath_list[:2]:
+    for filepath in filepath_list[:1]:
     
         # find the problems
         find_individual_problems_in_one_file(filepath , save_dir)
