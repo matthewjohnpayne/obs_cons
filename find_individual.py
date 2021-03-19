@@ -115,7 +115,79 @@ def _check_o80parse(deduped_obs_list):
             
     return parse_problems
 
+def _check_obscode(obs):
 
+    # list to hold any problematic observations
+    obscode_problems = []
+    
+    for obs80str in obs:
+        obsCode = obs80str[77:80]
+        
+        if obsCode in ['XXX','   ','310'] or obsCode not in {}:
+            obscode_problems.append(obs80str)
+            
+    return obscode_problems
+
+
+def _check_datetime(obs):
+
+    # list to hold any problematic observations
+    datetime_problems = []
+    
+    for obs80str in obs:
+        dt = obs80str[15:32]
+        
+        yr = dt[0:4]
+        mn = dt[5:7]
+        frac, dy = math.modf(float(dt[8:]))
+        
+        print(dt)
+        print(yr, mn, dy, frac)
+        
+        try:
+            # Check the year is reasonable
+            assert int(yr) <= 2021
+
+            # Check the month is reasonable
+            assert int(mn) >= 1 and int(mn) <= 12
+            
+            # Check the day is reasonable
+            if int(mn) == 2 :
+                assert int(dy) < 30
+            elif int(mn) in [9,4,6,11]:
+                assert int(dy) < 31
+            else:
+                assert int(dy) < 32
+
+        except:
+            datetime_problems.append(obs80str)
+        
+        sys.exit()
+
+    return datetime_problems
+
+def _check_radec(obs):
+
+    # list to hold any problematic observations
+    radec_problems = []
+    
+    for obs80str in obs:
+        ra, dec = obs80str[32:44], obs80str[44:56]
+        
+        ra_hr   = float(ra[0:2])
+        dec_deg = float(dec[1:3])
+
+        print(ra, dec)
+        print(ra_hr, dec_deg)
+        
+        try:
+            assert ra_hr < 24.0
+            assert dec_deg > -90. and dec_deg < 90.
+        except:
+            radec_problems.append(obs80str)
+        sys.exit()
+    return radec_problems
+    
 def save_problems_to_file(save_dir , filename , obs_list):
     '''
     '''
@@ -138,16 +210,22 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     # (2) Missing notes
     # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
     missing_notes = _check_notes(obs)
-    
-    # (3) Will not parse using Sonia's obs80 code
+        
+    # (3) bad obscodes (XXX, ...)
+    obscode_problems = _check_obscode(obs)
+
+    # (4) incorrect dates/times (min >= 60, dates >= 32, wtc)
+    datetime_problems = _check_datetime(obs)
+
+    # (5) Will not parse using Sonia's obs80 code
     parse_problems = _check_o80parse(obs)
-    
-    # (4) ... other problems we come across ...
+
+    # ... other problems we come across ...
     
     # write out the problems
     for filename, obs_list in zip(
-                    ['missing_pub_ref','missing_notes','parse_problems'],
-                    [missing_pub_ref,   missing_notes,  parse_problems]
+                    ['missing_pub_ref','missing_notes','parse_problems', 'obscode_problems', 'datetime_problems'],
+                    [missing_pub_ref,   missing_notes,  parse_problems,   obscode_problems,   datetime_problems]
                     ):
         save_problems_to_file(save_dir , filename , obs_list)
 
