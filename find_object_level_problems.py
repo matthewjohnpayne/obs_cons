@@ -49,25 +49,21 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def _check_asterisk(deduped_obs_list):
+def _asterisk_exists(deduped_obs_list):
     '''
     # Missing asterisk
     '''
     
-    # list to hold any problematic observations
-    asterisk_problems = []
+    asterisk = False
     
     for obs80str in deduped_obs_list:
-        # the pub-ref is in posns 72:77 of the obs80 string
-        pub_ref = obs80str[72:77]
+        # look for an asterisk in position [12]
+        if obs80str[12] == "*":
+            asterisk = True
+            break
         
-        # there should be 5 non-white space characters. If not, flag as a problem
-        # - perhaps this logic will turn out to be wrong for ancient pubns.
-        # C'est la vie
-        if len(pub_ref.strip()) != 5 :
-            pub_ref_problems.append(obs80str)
             
-    return pub_ref_problems
+    return asterisk
 
 
 def save_problems_to_file(save_dir , outfilename , desig_list, filepath):
@@ -108,7 +104,7 @@ def find_object_level_problems_in_one_file(filepath , save_dir):
     for desig, obs_list in object_obs_dict.items():
     
         # (1) Missing asterisk
-        if _missing_asterisk(obs_list):
+        if not _asterisk_exists(obs_list):
             missing_asterisk.append(desig)
     
         # (2)  ... other problems we come across ...
