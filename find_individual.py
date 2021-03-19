@@ -18,7 +18,6 @@ import obs80
 # Read all current obcCodes ...
 with open('/sa/data/obscode.dat', 'r') as fh:
     obsCodeDict = {_[:4].strip():True for _ in fh.readlines() }
-print(obsCodeDict)
 
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
@@ -199,7 +198,7 @@ def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     with open( os.path.join(save_dir , outfilename) , 'a') as fh:
         print('\t', os.path.join(save_dir , outfilename))
         for obs in obs_list:
-            fh.write(f'{obs}:{filepath}')
+            fh.write(f'{obs.strip('\n')}:{filepath}\n')
             
     
 def find_individual_problems_in_one_file(filepath , save_dir):
