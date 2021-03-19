@@ -72,7 +72,7 @@ def save_problems_to_file(save_dir , outfilename , desig_list, filepath):
     with open( os.path.join(save_dir , outfilename) , 'w') as fh:
         print('\t', os.path.join(save_dir , outfilename))
         for desig in desig_list:
-            fh.write(f'{desig}, {filepath}')
+            fh.write(f'{desig}, {filepath}\n')
             
     
 def find_object_level_problems_in_one_file(filepath , save_dir):
