@@ -15,6 +15,11 @@ import math
 sys.path.insert(0,'/share/apps/obs80/')
 import obs80
 
+# Read all current obcCodes ...
+with open('/sa/data/obscode.dat', 'r') as fh:
+    obsCodeDict = {_[:4].strip():True for _ in fh.readlines() }
+print(obsCodeDict)
+
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
 def _get_filenames():
@@ -124,7 +129,7 @@ def _check_obscode(obs):
     for obs80str in obs:
         obsCode = obs80str[77:80]
         
-        if obsCode in ['XXX','   ','310'] or obsCode not in {}:
+        if obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict:
             obscode_problems.append(obs80str)
             
     return obscode_problems
@@ -215,14 +220,17 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     datetime_problems = _check_datetime(obs)
 
     # (5) Will not parse using Sonia's obs80 code
+    radec_problems = _check_radec(obs)
+
+    # (6) Will not parse using Sonia's obs80 code
     parse_problems = _check_o80parse(obs)
 
     # ... other problems we come across ...
     
     # write out the problems
     for filename, obs_list in zip(
-                    ['missing_pub_ref','missing_notes','parse_problems', 'obscode_problems', 'datetime_problems'],
-                    [missing_pub_ref,   missing_notes,  parse_problems,   obscode_problems,   datetime_problems]
+                    ['missing_pub_ref','missing_notes','parse_problems', 'obscode_problems', 'datetime_problems','radec_problems'],
+                    [missing_pub_ref,   missing_notes,  parse_problems,   obscode_problems,   datetime_problems , radec_problems]
                     ):
         save_problems_to_file(save_dir , filename , obs_list)
 
