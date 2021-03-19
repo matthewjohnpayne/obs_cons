@@ -49,7 +49,7 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def _check_refs(self,deduped_obs_list):
+def _check_refs(deduped_obs_list):
     '''
     # Missing pubn references
     '''
@@ -69,7 +69,7 @@ def _check_refs(self,deduped_obs_list):
             
     return pub_ref_problems
 
-def _check_notes(self,deduped_obs_list):
+def _check_notes(deduped_obs_list):
     '''
     # Missing notes
     # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
@@ -95,11 +95,11 @@ def find_individual_problems_in_one_file(filepath , save_dir):
         obs = fh.readlines()
         
     # (1) Missing pubn references
-    missing_pub_ref = self._check_refs()
+    missing_pub_ref = _check_refs()
     
     # (2) Missing notes
     # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
-    missing_notes = self._check_notes()
+    missing_notes = _check_notes()
     
     # (3) ... other problems we come across ...
     
