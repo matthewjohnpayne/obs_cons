@@ -60,7 +60,7 @@ def _check_refs(deduped_obs_list):
     for obs80str in deduped_obs_list:
         # the pub-ref is in posns 72:77 of the obs80 string
         pub_ref = obs80str[72:77]
-        
+        print(pub_ref , len(pub_ref.strip()))
         # there should be 5 non-white space characters. If not, flag as a problem
         # - perhaps this logic will turn out to be wrong for ancient pubns.
         # C'est la vie
