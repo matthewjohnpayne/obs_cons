@@ -172,6 +172,10 @@ def find_cross_desig_duplicates(save_dir) :
     
     # Get all filenames of "primary" data files
     filepath_list = sorted(_get_filenames())
+    for _ in filepath_list:
+        f = _.split("/")[-1]
+        print(f[0]=='u', _ )
+    sys.exit()
     
     # Split files into "groups" of filenames
     group_dict = split_into_groups(filepath_list)
@@ -337,5 +341,5 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
 #----------------------------------------------------
 if __name__ == '__main__':
     save_dir = os.getcwd() if len(sys.argv) == 1 else sys.argv[1]
-    #find_cross_desig_duplicates( save_dir )
-    fix_cross_desig_duplicates(save_dir)
+    find_cross_desig_duplicates( save_dir )
+    #fix_cross_desig_duplicates(save_dir)
