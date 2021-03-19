@@ -303,11 +303,13 @@ def decide_how_to_fix(line_list):
         print(obs2)
         print(prov1)
         print(prov2)
+        print(obs1[50:70])
+        print(obs2[50:70])
         print(prov1 in obs2[50:])
         print(prov2 in obs1[50:])
-        if prov1 in obs2[50:]:
+        if   prov1 != '' and prov1 in obs2[50:]:
             discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
-        elif prov2 in obs1[50:]:
+        elif prov2 != '' and prov2 in obs1[50:]:
             discard, keep, notfixed = [f'{obs2},{f2}'], [f'{obs1},{f1}'], []
         else:
             discard, keep, notfixed = [],[],line_list
