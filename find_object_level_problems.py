@@ -131,7 +131,7 @@ def find_all(save_dir):
     for filepath in filepath_list[:2]:
     
         # find the problems
-        find_individual_problems_in_one_file(filepath , save_dir)
+        find_object_level_problems_in_one_file(filepath , save_dir)
         
         # add code to fix problems
         
