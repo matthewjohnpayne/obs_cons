@@ -318,7 +318,7 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
     discard_file = os.path.join(save_dir , 'to_be_deleted.txt')
     print(f'There are {len(discard)} observations in {discard_file} to be deleted')
     with open(discard_file, 'w') as fh:
-        for line in discard:
+        for line in list(set(discard)):
             fh.write( line + '' if line[-1]=='\n' else '\n')
             
     # Lines that we don't know how to fix
