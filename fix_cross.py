@@ -326,7 +326,7 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
     uniq_not_fixed = []
     for line in not_fixed:
         if line not in uniq_not_fixed:
-            uniq_not_fixed.append()
+            uniq_not_fixed.append(line)
     print(f'There are {len(uniq_not_fixed)} observations in {not_fixed} that I do not know how to fix')
     with open(not_fixed, 'w') as fh:
         for line in uniq_not_fixed:
