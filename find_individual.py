@@ -193,13 +193,13 @@ def _check_radec(obs):
             
     return radec_problems
     
-def save_problems_to_file(save_dir , filename , obs_list):
+def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     '''
     '''
-    with open( os.path.join(save_dir , filename) , 'w') as fh:
-        print('\t', os.path.join(save_dir , filename))
+    with open( os.path.join(save_dir , outfilename) , 'a') as fh:
+        print('\t', os.path.join(save_dir , outfilename))
         for obs in obs_list:
-            fh.write(obs)
+            fh.write(f'{obs}:{filepath}')
             
     
 def find_individual_problems_in_one_file(filepath , save_dir):
@@ -231,11 +231,11 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     # ... other problems we come across ...
     
     # write out the problems
-    for filename, obs_list in zip(
+    for outfilename, obs_list in zip(
                     ['missing_pub_ref','missing_notes','parse_problems', 'obscode_problems', 'datetime_problems','radec_problems'],
                     [missing_pub_ref,   missing_notes,  parse_problems,   obscode_problems,   datetime_problems , radec_problems]
                     ):
-        save_problems_to_file(save_dir , filename , obs_list)
+        save_problems_to_file(save_dir , outfilename , obs_list , filepath)
 
 
 def find_all(save_dir):
