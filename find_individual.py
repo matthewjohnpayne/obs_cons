@@ -139,7 +139,7 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     missing_notes = _check_notes(obs)
     
     # (3) Will not parse using Sonia's obs80 code
-    parse_problems = _check_o80parse(deduped_obs_list)
+    parse_problems = _check_o80parse(obs)
     
     # (4) ... other problems we come across ...
     
