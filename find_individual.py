@@ -127,10 +127,11 @@ def _check_obscode(obs):
     obscode_problems = []
     
     for obs80str in obs:
-        obsCode = obs80str[77:80]
+        if line[14] not in ['s','v','r']:
+            obsCode = obs80str[77:80]
         
-        if obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict:
-            obscode_problems.append(obs80str)
+            if obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict:
+                obscode_problems.append(obs80str)
             
     return obscode_problems
 
@@ -141,30 +142,31 @@ def _check_datetime(obs):
     datetime_problems = []
     
     for obs80str in obs:
-        dt = obs80str[15:32]
-        
-        yr = dt[0:4]
-        mn = dt[5:7]
-        frac, dy = math.modf(float(dt[8:]))
-        
-        try:
-            # Check the year is reasonable
-            assert int(yr) <= 2021
-
-            # Check the month is reasonable
-            assert int(mn) >= 1 and int(mn) <= 12
+        if line[14] not in ['s','v','r']:
+            dt = obs80str[15:32]
             
-            # Check the day is reasonable
-            if int(mn) == 2 :
-                assert int(dy) < 30
-            elif int(mn) in [9,4,6,11]:
-                assert int(dy) < 31
-            else:
-                assert int(dy) < 32
+            yr = dt[0:4]
+            mn = dt[5:7]
+            frac, dy = math.modf(float(dt[8:]))
+            
+            try:
+                # Check the year is reasonable
+                assert int(yr) <= 2021
 
-        except:
-            datetime_problems.append(obs80str)
-        
+                # Check the month is reasonable
+                assert int(mn) >= 1 and int(mn) <= 12
+                
+                # Check the day is reasonable
+                if int(mn) == 2 :
+                    assert int(dy) < 30
+                elif int(mn) in [9,4,6,11]:
+                    assert int(dy) < 31
+                else:
+                    assert int(dy) < 32
+
+            except:
+                datetime_problems.append(obs80str)
+            
 
     return datetime_problems
 
@@ -174,20 +176,21 @@ def _check_radec(obs):
     radec_problems = []
     
     for obs80str in obs:
-        try:
-            # extract ra, dec strings
-            ra, dec = obs80str[32:44], obs80str[44:56]
+        if line[14] not in ['s','v','r']:
+            try:
+                # extract ra, dec strings
+                ra, dec = obs80str[32:44], obs80str[44:56]
+                
+                # get ra, dec floats
+                ra_hr   = float(ra[0:2])
+                dec_deg = float(dec[1:3])
+                
+                # check values ...
+                assert ra_hr < 24.0
+                assert dec_deg > -90. and dec_deg < 90.
+            except:
+                radec_problems.append(obs80str)
             
-            # get ra, dec floats
-            ra_hr   = float(ra[0:2])
-            dec_deg = float(dec[1:3])
-            
-            # check values ...
-            assert ra_hr < 24.0
-            assert dec_deg > -90. and dec_deg < 90.
-        except:
-            radec_problems.append(obs80str)
-        
     return radec_problems
     
 def save_problems_to_file(save_dir , filename , obs_list):
