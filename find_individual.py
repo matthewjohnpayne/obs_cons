@@ -80,6 +80,7 @@ def _check_notes(deduped_obs_list):
     
     for obs80str in deduped_obs_list:
         # the notes are in posn 15 (python 14) of the obs80 string
+        # they are not supposed to be blank: P   Photographic (default if column is blank)
         # https://www.minorplanetcenter.net/iau/info/OpticalObs.html
         pub_ref = obs80str[14]
         
@@ -130,7 +131,7 @@ def find_all(save_dir):
 
     # Process each file
     # *** LIMITED TO ONE FILE WHILE DEVELOPING ***
-    for filepath in filepath_list[:1]:
+    for filepath in filepath_list[:2]:
     
         # find the problems
         find_individual_problems_in_one_file(filepath , save_dir)
