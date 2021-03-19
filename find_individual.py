@@ -178,16 +178,13 @@ def _check_radec(obs):
         
         ra_hr   = float(ra[0:2])
         dec_deg = float(dec[1:3])
-
-        print(ra, dec)
-        print(ra_hr, dec_deg)
         
         try:
             assert ra_hr < 24.0
             assert dec_deg > -90. and dec_deg < 90.
         except:
             radec_problems.append(obs80str)
-        sys.exit()
+        
     return radec_problems
     
 def save_problems_to_file(save_dir , filename , obs_list):
