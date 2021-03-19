@@ -7,7 +7,7 @@ Code to find problems with *individual* lines
 # third party imports
 #-----------------------
 import sys, os
-import glob 
+import glob
 
 
 # Functions to *FIND*  individual problems ...
@@ -91,7 +91,7 @@ def _check_notes(self,deduped_obs_list):
 def find_individual_problems_in_one_file(filepath , save_dir):
     
     # read the data
-    with open(fp,'r') as fh:
+    with open(filepath,'r') as fh:
         obs = fh.readlines()
         
     # (1) Missing pubn references
