@@ -1,7 +1,9 @@
 '''
-Code to find problems with *individual* lines
+Code to find problems with *individual* lines in obs80 files
  - Not duplicates
- Does not fix
+ 
+Does not fix, just prints the problems out to file
+
 '''
 
 # third party imports
@@ -184,9 +186,26 @@ def _check_radec(obs):
                 ra_hr   = float(ra[0:2])
                 dec_deg = float(dec[1:3])
                 
+                ra_mn = float(RA[3:5])
+                try:
+                    ra_sec = float(RA[6:])
+                except ValueError:
+                    ra_sec = 0
+
+                dec_mn = float(Dec[4:6])
+                try:
+                    dec_sec = float(Dec[7:])
+                except ValueError:
+                    dec_sec = 0
+
                 # check values ...
                 assert ra_hr < 24.0
                 assert dec_deg > -90. and dec_deg < 90.
+                
+                assert ra_mn   < 60.0
+                assert ra_sec  < 60.0
+                assert dec_mn  < 60.0
+                assert dec_sec < 60.0
             except:
                 radec_problems.append(obs80str)
             
@@ -195,7 +214,7 @@ def _check_radec(obs):
 def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     '''
     '''
-    with open( os.path.join(save_dir , outfilename) , 'a') as fh:
+    with open( os.path.join(save_dir , 'individual_'+outfilename) , 'a') as fh:
         print('\t', os.path.join(save_dir , outfilename))
         for obs in obs_list:
             o = obs[:-1] if obs[-1] == '\n' else obs
