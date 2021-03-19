@@ -323,9 +323,13 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
             
     # Lines that we don't know how to fix
     not_fixed = os.path.join(save_dir , 'not_fixed.txt')
-    print(f'There are {len(notfixed)} observations in {not_fixed} that I do not know how to fix')
+    uniq_not_fixed = []
+    for line in not_fixed:
+        if line not in uniq_not_fixed:
+            uniq_not_fixed.append()
+    print(f'There are {len(uniq_not_fixed)} observations in {not_fixed} that I do not know how to fix')
     with open(not_fixed, 'w') as fh:
-        for line in notfixed:
+        for line in uniq_not_fixed:
             fh.write( line + '' if line[-1]=='\n' else '\n')
 
 
