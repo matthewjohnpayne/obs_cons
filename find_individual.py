@@ -88,6 +88,15 @@ def _check_notes(deduped_obs_list):
             
     return pub_ref_problems
 
+
+def save_problems_to_file(save_dir , filename , obs_list):
+    '''
+    '''
+    with open( os.path.join(save_dir , filename) , 'w') as fh:
+        for obs in obs_list:
+            fh.write(obs)
+            
+    
 def find_individual_problems_in_one_file(filepath , save_dir):
     
     # read the data
