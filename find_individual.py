@@ -94,11 +94,13 @@ def save_problems_to_file(save_dir , filename , obs_list):
     '''
     '''
     with open( os.path.join(save_dir , filename) , 'w') as fh:
+        print('\t', os.path.join(save_dir , filename))
         for obs in obs_list:
             fh.write(obs)
             
     
 def find_individual_problems_in_one_file(filepath , save_dir):
+    print(filepath)
     
     # read the data
     with open(filepath,'r') as fh:
