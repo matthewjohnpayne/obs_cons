@@ -280,7 +280,7 @@ def fix_cross_desig_duplicates(save_dir):
         for k, line_list in issue_dict.items():
         
             d, k, n = decide_how_to_fix(line_list)
-
+            sys.exit()
             discard.extend(d)
             keep.extend(k)
             notfixed.extend(n)
@@ -299,6 +299,9 @@ def decide_how_to_fix(line_list):
         prov1,prov2  = obs1[5:12],obs2[5:12]
 
         # if one of the provIDs is in the later part of the other, that implies a redesignation
+        print(obs1, obs2)
+        print(prov1 in obs2[50:])
+        print(prov2 in obs1[50:])
         if prov1 in obs2[50:]:
             discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
         elif prov2 in obs1[50:]:
@@ -316,7 +319,7 @@ def write_attempted_fixes(discard, keep, notfixed , save_dir):
     
     # Lines that we want to delete/discard
     discard_file = os.path.join(save_dir , 'to_be_deleted.txt')
-    print(f'There are {len(discard)} observations in {discard_file} to be deleted')
+    print(f'There are {len(list(set(discard)))} observations in {discard_file} to be deleted')
     with open(discard_file, 'w') as fh:
         for line in list(set(discard)):
             fh.write( line + '' if line[-1]=='\n' else '\n')
