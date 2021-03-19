@@ -8,6 +8,7 @@ Code to find problems with *individual* lines
 #-----------------------
 import sys, os
 import glob
+import math 
 
 # local imports
 # -----------------
