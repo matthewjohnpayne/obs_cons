@@ -176,10 +176,9 @@ def _check_radec(obs):
     for obs80str in obs:
         ra, dec = obs80str[32:44], obs80str[44:56]
         
-        ra_hr   = float(ra[0:2])
-        dec_deg = float(dec[1:3])
-        
         try:
+            ra_hr   = float(ra[0:2])
+            dec_deg = float(dec[1:3])
             assert ra_hr < 24.0
             assert dec_deg > -90. and dec_deg < 90.
         except:
