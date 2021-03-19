@@ -131,7 +131,7 @@ def find_all(save_dir):
 
     # Process each file
     # *** LIMITED TO ONE FILE WHILE DEVELOPING ***
-    for filepath in filepath_list[:2]:
+    for filepath in filepath_list[:3]:
     
         # find the problems
         find_individual_problems_in_one_file(filepath , save_dir)
