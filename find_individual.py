@@ -110,6 +110,9 @@ def _check_o80parse(deduped_obs_list):
             else:
                 parseOpt(obs80str)
         except:
+            print( obs80str)
+            print( obs80str[14] in 'srvSRV' )
+            print( parseOpt(obs80str) )
             parse_problems.append( obs80str )
             
     return parse_problems
