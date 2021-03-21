@@ -185,7 +185,7 @@ def _check_radec(obs):
     radec_problems = []
     
     for obs80str in obs:
-        if obs80str[14] not in ['s','v','r']:
+        if obs80str[14] not in ['s','v','r','R']:
             try:
                 # extract ra, dec strings
                 ra, dec = obs80str[32:44], obs80str[44:56]
