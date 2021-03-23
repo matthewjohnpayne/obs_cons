@@ -10,6 +10,7 @@ diff_desig
 import os, sys
 sys.path.insert(0,'/sa/identifications_pipeline/dbchecks/')
 import query_ids as dbq
+import mpc_convert
 
 def get_desig(line):
     
