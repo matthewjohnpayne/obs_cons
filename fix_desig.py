@@ -39,6 +39,7 @@ def analyse_pairs(line1, line2, QCID):
     ref1 = line1[72:77].strip()
     ref2 = line2[72:77].strip()
     print(f'unpacked_desig1 , packed_desig1, NUMBERED1 = {unpacked_desig1 , packed_desig1, NUMBERED1}')
+    print(f'unpacked_desig2 , packed_desig2, NUMBERED2 = {unpacked_desig2 , packed_desig2, NUMBERED2}')
     # Look up the primary designations in the database
     if NUMBERED1:
         prim1 = QCID.get_packed_desig_from_number(unpacked_desig1)[0]['packed_primary_provisional_designation']
