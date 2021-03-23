@@ -44,7 +44,7 @@ def analyse_pairs(line1, line2, QCID):
         prim1 = QCID.get_packed_desig_from_number(unpacked_desig1)[0]['packed_primary_provisional_designation']
     else:
         prim1 = QCID.check_desig_exists(desig1)[0]['packed_primary_provisional_designation']
-    sys.exit(f'prim1={prim1}')
+    
     if NUMBERED2:
         prim2 = QCID.get_packed_desig_from_number(unpacked_desig2)
     else:
