@@ -33,8 +33,8 @@ def get_desig(line):
 def analyse_pairs(line1, line2, QCID):
 
     # Get the designation part (can be numbered or unnumbered)
-    unpacked_desig1 , packed_desig1, NUMBERED1 = line1[:12].strip()
-    unpacked_desig2 , packed_desig2, NUMBERED2 = line2[:12].strip()
+    unpacked_desig1 , packed_desig1, NUMBERED1 = get_desig(line1)
+    unpacked_desig2 , packed_desig2, NUMBERED2 = get_desig(line2)
     ref1 = line1[72:77].strip()
     ref2 = line2[72:77].strip()
     print(f'unpacked_desig1 , packed_desig1, NUMBERED1 = {unpacked_desig1 , packed_desig1, NUMBERED1}')
