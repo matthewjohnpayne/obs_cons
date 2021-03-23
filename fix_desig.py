@@ -43,12 +43,12 @@ def analyse_pairs(line1, line2, QCID):
     if NUMBERED1:
         prim1 = QCID.get_packed_desig_from_number(unpacked_desig1)[0]['packed_primary_provisional_designation']
     else:
-        prim1 = QCID.check_desig_exists(desig1)[0]['packed_primary_provisional_designation']
+        prim1 = QCID.check_desig_exists(packed_desig1)[0]['packed_primary_provisional_designation']
     
     if NUMBERED2:
         prim2 = QCID.get_packed_desig_from_number(unpacked_desig2)
     else:
-        prim2 = QCID.check_desig_exists(desig1)[0]['packed_primary_provisional_designation']
+        prim2 = QCID.check_desig_exists(packed_desig2)[0]['packed_primary_provisional_designation']
 
     # Does one have an asterisk while the other does not? Keep the asterisk!
     if   line1[12] == "*" and line2[12] != "*":
