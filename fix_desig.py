@@ -16,7 +16,7 @@ def get_desig(line):
     
     # Unnumbered
     if line[:5].strip() == '':
-        packed_desig   = line[5:].strip()
+        packed_desig   = line[5:12].strip()
         unpacked_desig = mpc_convert.packed_to_unpacked_desig(packed_desig)
         NUMBERED = False
     # Numbered
