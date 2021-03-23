@@ -60,9 +60,9 @@ def analyse_pairs(line1, line2, QCID):
     else:
     
         # If there's an obvious redesignation...
-        if   desig1 in line2:
+        if   packed_desig1 in line2:
             keep, discard = line2, line1
-        elif desig2 in line1:
+        elif packed_desig2 in line1:
             keep, discard = line1, line2
         else:
         
