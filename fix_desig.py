@@ -11,21 +11,44 @@ import os, sys
 sys.path.insert(0,'/sa/identifications_pipeline/dbchecks/')
 import query_ids as dbq
 
+def get_desig(line):
+    
+    # Unnumbered
+    if line[:5].strip() == '':
+        packed_desig   = line[5:].strip()
+        unpacked_desig = mpc_convert.packed_to_unpacked_desig(packed_desig)
+        NUMBERED = False
+    # Numbered
+    else:
+        packed_desig   = line[:5].strip()
+        unpacked_desig = mpc_convert.packed_to_unpacked_desig(packed_desig)
+        unpacked_desig = ''.join([_ for _ in unpacked_desig if _ not in [')','('] ])
+        while unpacked_desig[0] == '0':
+            unpacked_desig = unpacked_desig[1:]
+        assert len(unpacked_desig)
+        NUMBERED = True
+
+    return unpacked_desig , packed_desig, NUMBERED
+
 def analyse_pairs(line1, line2, QCID):
 
-    # Get the designation part
-    desig1 = line1[:12].strip()
-    desig2 = line2[:12].strip()
+    # Get the designation part (can be numbered or unnumbered)
+    unpacked_desig1 , packed_desig1, NUMBERED1 = line1[:12].strip()
+    unpacked_desig2 , packed_desig2, NUMBERED2 = line2[:12].strip()
     ref1 = line1[72:77].strip()
     ref2 = line2[72:77].strip()
-    assert desig1 != desig2
 
     # Look up the primary designations in the database
-    return1 = QCID.check_desig_exists(desig1)[0]
-    return2 = QCID.check_desig_exists(desig2)[0]
-    prim1 = return1['packed_primary_provisional_designation']
-    prim2 = return2['packed_primary_provisional_designation']
-    
+    if NUMBERED1:
+        prim1 = QCID.get_packed_desig_from_number(unpacked_desig1)
+    else:
+        prim1 = QCID.check_desig_exists(desig1)[0]['packed_primary_provisional_designation']
+    sys.exit(f'prim1={prim1}')
+    if NUMBERED2:
+        prim2 = QCID.get_packed_desig_from_number(unpacked_desig2)
+    else:
+        prim2 = QCID.check_desig_exists(desig1)[0]['packed_primary_provisional_designation']
+
     # Does one have an asterisk while the other does not? Keep the asterisk!
     if   line1[12] == "*" and line2[12] != "*":
         keep, discard = line1, line2
