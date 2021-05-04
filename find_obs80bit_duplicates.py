@@ -33,6 +33,8 @@ def search_all( file_list ):
     assert file_list != [], 'You need to input a list of files'
     
     # find duplicates within each file
+    for filepath in file_list:
+        search_for_duplicates_within_single_file( filepath ):
     
 # command-line running ...
 #----------------------------------------------------
