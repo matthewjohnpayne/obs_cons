@@ -55,7 +55,7 @@ def get_next_chunk_from_multiple_files( filepaths ):
     FINISHED = False
     while not FINISHED:
         chunk_lines = next(gen)
-        FINISHED    = True if chunk_lines < desired_len else False
+        FINISHED    = True if len(chunk_lines) < desired_len else False
         print(len(chunk_lines))
     
 def search_for_cross_file_duplicates():
