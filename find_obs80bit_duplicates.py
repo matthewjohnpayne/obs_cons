@@ -41,7 +41,7 @@ def search_for_duplicates_within_single_file( filepath , n=int(1e7) ):
             print(len(next_n_lines), cumulative_lines)
             
             # Look for duplicates within a chunk
-            duplicate_dict.update(  search_for_duplicates_within_chunk( lines ) )
+            duplicate_dict.update(  search_for_duplicates_within_chunk( next_n_lines ) )
             print( len(duplicate_dict) )
 
             
