@@ -40,17 +40,19 @@ def get_next_chunk_from_single_file( filepath , desired_len =int(1e7) ):
             chunk_lines = list(islice(f, desired_len ))
             
             # Length ...
-            chunk_len     = len(chunk_lines)
+            chunk_len     =
 
             # Decide next step based on lengths ...
-            if chunk_len == desired_len :
+            if chunk_lines:
                 yield chunk_lines
                 chunk_lines = []
                 current_len = 0
+            else:
+                break
             
 def get_next_chunk_from_multiple_files( filepaths ):
 
-    #
+    # generator to get next chunk from a file
     gen = get_next_chunk_from_single_file( filepaths[0] )
     
     FINISHED = False
