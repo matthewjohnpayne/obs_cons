@@ -50,9 +50,12 @@ def get_next_chunk_from_single_file( filepath , desired_len =int(1e7) ):
             
 def get_next_chunk_from_multiple_files( filepaths ):
 
+    #
+    gen = get_next_chunk_from_single_file( filepaths[0] )
+    
     FINISHED = False
     while not FINISHED:
-        chunk_lines = get_next_chunk_from_single_file( filepaths[0] )
+        chunk_lines = next(gen)
         FINISHED    = False if chunk_lines else True
         print(len(chunk_lines))
     
