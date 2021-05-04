@@ -180,6 +180,17 @@ def _check_radec(obs80str):
 
     return [obs80str] if not SUCCESS else []
 
+def _check_2line( line1, line2 ):
+    ''' check that both lines in a two line observation are present
+    #
+    #E4950         S2019 05 03.21923614 18 31.29 -25 36 11.4          19.4 GV~3cC3C57
+    #E4950         s2019 05 03.2192361 -195500.638 +261270.092 -58409.1580   ~3cC3C57
+    #
+    '''
+    # If we are dealing with the first line in a pair, we expect upper case ...
+    # ... don't worry about checking second lines alone ...
+    return [line1] if line1[14] in 'SRV' and line2[14] not in 'srv' else []
+
 def _check_ineligible_2line( obs80str ):
     ''' Look for Two line observations against obs_code that is not allowed to have 2-line observations s'''
 
@@ -204,16 +215,6 @@ def _check_o80parse(obs80str):
     except:
         return [obs80str]
 
-def _check_2line( line1, line2 ):
-    ''' check that both lines in a two line observation are present
-    #
-    #E4950         S2019 05 03.21923614 18 31.29 -25 36 11.4          19.4 GV~3cC3C57
-    #E4950         s2019 05 03.2192361 -195500.638 +261270.092 -58409.1580   ~3cC3C57
-    #
-    '''
-    # If we are dealing with the first line in a pair, we expect upper case ...
-    # ... don't worry about checking second lines alone ...
-    return [line1] if line1[14] in 'SRV' and line2[14] not in 'srv' else []
 
 def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     '''
