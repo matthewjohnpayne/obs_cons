@@ -1,30 +1,21 @@
 import os, sys
+from itertools import islice
 
 
 
 def search_for_duplicates_within_chunk( lines ):
     pass
 
-def chunkify(filepath,size=1024*1024):
-    ''' get start end end points of file chunks, taking care to split on newlines'''
-    fileEnd = os.path.getsize(filepath)
-    with open(filepath,'r') as f:
-        chunkEnd = f.tell()
-        
-        while True:
-            chunkStart = chunkEnd
-            f.seek(size,1)
-            f.readline()
-            chunkEnd = f.tell()
-            yield chunkStart, chunkEnd - chunkStart
-            if chunkEnd > fileEnd:
-                break
 
-def search_for_duplicates_within_single_file( filepath ):
+def search_for_duplicates_within_single_file( filepath , n=int(1e6) ):
     print('search_for_duplicates_within_single_file:',filepath)
-    for chunkStart,chunkSize in chunkify(filepath):
-        print('chunkStart,chunkSize = ',chunkStart,chunkSize)
-        
+    with open(filepath,'r') as f:
+        while True:
+            next_n_lines = list(islice(f, n))
+            if not next_n_lines:
+                break
+            print(len(next_n_lines))
+
 
 
     
