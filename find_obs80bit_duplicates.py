@@ -23,7 +23,7 @@ def search_for_duplicates_within_chunk( lines ):
     return {k:bit_dict[k] for k in duplicate_dict}
 
 
-def get_next_chunk_from_single_file( filepath , desired_len =int(1e7) ):
+def get_next_chunk_from_single_file( filepath , desired_len ):
 
     print('search_for_duplicates_within_single_file:',filepath)
     duplicate_dict = {}
@@ -49,12 +49,13 @@ def get_next_chunk_from_single_file( filepath , desired_len =int(1e7) ):
 def get_next_chunk_from_multiple_files( filepaths ):
 
     # generator to get next chunk from a file
-    gen = get_next_chunk_from_single_file( filepaths[0] )
+    desired_len = int(1e7)
+    gen         = get_next_chunk_from_single_file( filepaths[0] , desired_len)
     
     FINISHED = False
     while not FINISHED:
         chunk_lines = next(gen)
-        FINISHED    = False if chunk_lines else True
+        FINISHED    = True if chunk_lines < desired_len else False
         print(len(chunk_lines))
     
 def search_for_cross_file_duplicates():
