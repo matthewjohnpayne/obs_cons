@@ -7,14 +7,17 @@ def search_for_duplicates_within_chunk( lines ):
     pass
 
 
-def search_for_duplicates_within_single_file( filepath , n=int(1e6) ):
+def search_for_duplicates_within_single_file( filepath , n=int(1e7) ):
+
     print('search_for_duplicates_within_single_file:',filepath)
+    cumulative_lines = 0
     with open(filepath,'r') as f:
         while True:
             next_n_lines = list(islice(f, n))
             if not next_n_lines:
                 break
-            print(len(next_n_lines))
+            cumulative_lines += len(next_n_lines)
+            print(len(next_n_lines), cumulative_lines)
 
 
 
