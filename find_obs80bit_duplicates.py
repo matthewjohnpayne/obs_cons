@@ -20,6 +20,7 @@ def chunkify(filepath,size=1024*1024):
             break
 
 def search_for_duplicates_within_single_file( filepath ):
+    print('search_for_duplicates_within_single_file:',filepath)
     for chunkStart,chunkSize in chunkify(filepath):
         print('chunkStart,chunkSize = ',chunkStart,chunkSize)
         
@@ -34,7 +35,7 @@ def search_all( file_list ):
     
     # find duplicates within each file
     for filepath in file_list:
-        search_for_duplicates_within_single_file( filepath ):
+        search_for_duplicates_within_single_file( filepath )
     
 # command-line running ...
 #----------------------------------------------------
