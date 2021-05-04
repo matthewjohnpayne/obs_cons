@@ -1,4 +1,5 @@
 '''
+This routine is intended to *fix* problems identified by one of PV's scripts
 
 I assume some command has been run like
 python3 /sa/util/consistency.py /sa/mpu/UK20A.dat

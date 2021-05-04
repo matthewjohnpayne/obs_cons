@@ -23,6 +23,9 @@ import obs80
 with open('/sa/data/obscode.dat', 'r') as fh:
     obsCodeDict = {_[:4].strip():True for _ in fh.readlines() }
 
+# obs-codes that are allowed 2-lines
+allowed_2line = { _ : True for _ in ['244', '245', '247','248','249', '250', '258', '500', 'C49','C50','C51','C52','C53','C54','C55', 'C56', 'C57', '251', '252', '253', '254', '255', '256' , '257' ] }
+
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
 def _get_filenames():
@@ -62,163 +65,156 @@ def _get_unnumbered_filenames(  ):
     return files_
 
 
-def _check_refs(deduped_obs_list):
+def _check_refs( obs80str):
     '''
     # Missing pubn references
     '''
     
-    # list to hold any problematic observations
-    pub_ref_problems = []
+    # the pub-ref is in posns 72:77 of the obs80 string
+    pub_ref = obs80str[72:77]
     
-    for obs80str in deduped_obs_list:
-        # the pub-ref is in posns 72:77 of the obs80 string
-        pub_ref = obs80str[72:77]
-        
-        # there should be 5 non-white space characters. If not, flag as a problem
-        # - perhaps this logic will turn out to be wrong for ancient pubns.
-        # C'est la vie
-        if len(pub_ref.strip()) != 5 :
-            pub_ref_problems.append(obs80str)
-            
-    return pub_ref_problems
+    # there should be 5 non-white space characters. If not, flag as a problem
+    # - perhaps this logic will turn out to be wrong for ancient pubns.
+    # C'est la vie
+    return [obs80str] if len(pub_ref.strip()) != 5 else []
 
-def _check_notes(deduped_obs_list):
+def _check_notes(obs80str):
     '''
     # Missing notes
     # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
     '''
     
-    # list to hold any problematic observations
-    pub_ref_problems = []
+    # the notes are in posn 15 (python 14) of the obs80 string
+    # they are not supposed to be blank: P   Photographic (default if column is blank)
+    # https://www.minorplanetcenter.net/iau/info/OpticalObs.html
+    pub_ref = obs80str[14]
     
-    for obs80str in deduped_obs_list:
-        # the notes are in posn 15 (python 14) of the obs80 string
-        # they are not supposed to be blank: P   Photographic (default if column is blank)
-        # https://www.minorplanetcenter.net/iau/info/OpticalObs.html
-        pub_ref = obs80str[14]
-        
-        # the single character should NOT be white space.
-        if len(pub_ref.strip()) != 1 :
-            pub_ref_problems.append(obs80str)
-            
-    return pub_ref_problems
+    # the single character should NOT be white space.
+    return [obs80str] if len(pub_ref.strip()) != 1 else []
 
-def _check_o80parse(deduped_obs_list):
+def _check_obscode(obs80str):
+    ''' Look for obvious problems with obscodes
+    E.g. obscodes that dont exist or are not allowed
+    '''
+    obsCode = obs80str[77:80]
+    return [obs80str] if ( obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict ) else []
+        
+
+def _check_datetime(obs80str):
+    ''' Look for obvious problems with datetime
+    E.g. days that are > than the number of days in the month
+    '''
+    # Boolean for pass/fail
+    SUCCESS = True
+
+    if obs80str[14] not in ['s','v','r']:
+        dt = obs80str[15:32]
+        
+        yr = dt[0:4]
+        mn = dt[5:7]
+        frac, dy = math.modf(float(dt[8:]))
+        
+        try:
+            # Check the year is reasonable
+            assert int(yr) <= 2021
+
+            # Check the month is reasonable
+            assert int(mn) >= 1 and int(mn) <= 12
+            
+            # Check the day is reasonable
+            if int(mn) == 2 :
+                assert int(dy) < 30
+            elif int(mn) in [9,4,6,11]:
+                assert int(dy) < 31
+            else:
+                assert int(dy) < 32
+            
+            # Boolean
+            SUCCESS = True
+        except:
+            SUCCESS = False
+
+    return [obs80str] if not SUCCESS else []
+    
+
+def _check_radec(obs80str):
+    ''' Look for obvious problems with ra/dec
+    E.g. mins/secs that are > 60 
+    '''
+    # Boolean for pass/fail
+    SUCCESS = True
+
+    if obs80str[14] not in ['s','v','r','R']:
+        try:
+            # extract ra, dec strings
+            ra, dec = obs80str[32:44], obs80str[44:56]
+            
+            # get ra, dec floats
+            ra_hr   = float(ra[0:2])
+            dec_deg = float(dec[1:3])
+            
+            ra_mn = float(ra[3:5])
+            try:
+                ra_sec = float(ra[6:])
+            except ValueError:
+                ra_sec = 0
+
+            dec_mn = float(dec[4:6])
+            try:
+                dec_sec = float(dec[7:])
+            except ValueError:
+                dec_sec = 0
+
+            # check values ...
+            assert ra_hr < 24.0
+            assert dec_deg > -90. and dec_deg < 90.
+            
+            assert ra_mn   < 60.0
+            assert ra_sec  < 60.0
+            assert dec_mn  < 60.0
+            assert dec_sec < 60.0
+
+            SUCCESS = True
+        except:
+            SUCCESS = False
+
+    return [obs80str] if not SUCCESS else []
+
+def _check_ineligible_2line( obs80str ):
+    ''' Look for Two line observations against obs_code that is not allowed to have 2-line observations s'''
+
+    # Look for sat/rov/radar lines
+    # We expect the sat/rov/radar obs to come from the above list
+    # If obs-code not in allowed list, then treat as problem
+    return [obs80str] if obs80str[14] in 'srvSRV' and obs80str[77:80] not in allowed_2line else []
+
+
+def _check_o80parse(obs80str):
     '''
     # Will Sonia's obs80 code parse it?
     '''
     
-    # list to hold any problematic observations
-    parse_problems = []
-    
-    for obs80str in deduped_obs_list:
-        try:
-            # ignore sat/rov/radar lines
-            if obs80str[14] in 'srvSRV':
-                pass
-            else:
-                obs80.parseOpt(obs80str)
-        except:
-            parse_problems.append( obs80str )
-            
-    return parse_problems
+    try:
+        # ignore sat/rov/radar lines
+        if obs80str[14] in 'srvSRV':
+            pass
+        else:
+            obs80.parseOpt(obs80str)
+        return []
+    except:
+        return [obs80str]
 
-def _check_obscode(obs):
-    ''' Look for obvious problems with obscodes
-    E.g. obscodes that dont exist or are not allowed
+def _check_2line( line1, line2 ):
+    ''' check that both lines in a two line observation are present
+    #
+    #E4950         S2019 05 03.21923614 18 31.29 -25 36 11.4          19.4 GV~3cC3C57
+    #E4950         s2019 05 03.2192361 -195500.638 +261270.092 -58409.1580   ~3cC3C57
+    #
     '''
-    # list to hold any problematic observations
-    obscode_problems = []
-    
-    for obs80str in obs:
-        if obs80str[14] not in ['s','v','r']:
-            obsCode = obs80str[77:80]
-        
-            if obsCode in ['XXX','   ','310'] or obsCode not in obsCodeDict:
-                obscode_problems.append(obs80str)
-            
-    return obscode_problems
+    # If we are dealing with the first line in a pair, we expect upper case ...
+    # ... don't worry about checking second lines alone ...
+    return [line1] if line1[14] in 'SRV' and line2[14] not in 'srv' else []
 
-
-def _check_datetime(obs):
-    ''' Look for obvious problems with datetime
-    E.g. days that are > than the number of days in the month
-    '''
-    # list to hold any problematic observations
-    datetime_problems = []
-    
-    for obs80str in obs:
-        if obs80str[14] not in ['s','v','r']:
-            dt = obs80str[15:32]
-            
-            yr = dt[0:4]
-            mn = dt[5:7]
-            frac, dy = math.modf(float(dt[8:]))
-            
-            try:
-                # Check the year is reasonable
-                assert int(yr) <= 2021
-
-                # Check the month is reasonable
-                assert int(mn) >= 1 and int(mn) <= 12
-                
-                # Check the day is reasonable
-                if int(mn) == 2 :
-                    assert int(dy) < 30
-                elif int(mn) in [9,4,6,11]:
-                    assert int(dy) < 31
-                else:
-                    assert int(dy) < 32
-
-            except:
-                datetime_problems.append(obs80str)
-            
-
-    return datetime_problems
-
-def _check_radec(obs):
-    ''' Look for obvious problems with ra/dec
-    E.g. mins/secs that are > 60 
-    '''
-
-    # list to hold any problematic observations
-    radec_problems = []
-    
-    for obs80str in obs:
-        if obs80str[14] not in ['s','v','r','R']:
-            try:
-                # extract ra, dec strings
-                ra, dec = obs80str[32:44], obs80str[44:56]
-                
-                # get ra, dec floats
-                ra_hr   = float(ra[0:2])
-                dec_deg = float(dec[1:3])
-                
-                ra_mn = float(ra[3:5])
-                try:
-                    ra_sec = float(ra[6:])
-                except ValueError:
-                    ra_sec = 0
-
-                dec_mn = float(dec[4:6])
-                try:
-                    dec_sec = float(dec[7:])
-                except ValueError:
-                    dec_sec = 0
-
-                # check values ...
-                assert ra_hr < 24.0
-                assert dec_deg > -90. and dec_deg < 90.
-                
-                assert ra_mn   < 60.0
-                assert ra_sec  < 60.0
-                assert dec_mn  < 60.0
-                assert dec_sec < 60.0
-            except:
-                radec_problems.append(obs80str)
-            
-    return radec_problems
-    
 def save_problems_to_file(save_dir , outfilename , obs_list , filepath):
     '''
     Print problems to file so that they can be examined and fixed later
@@ -236,37 +232,54 @@ def find_individual_problems_in_one_file(filepath , save_dir):
     '''
     print(filepath)
     
-    # read the data
+    # Name of file & associated list we'll use to store problems
+    files_and_lists = { _:[] for _ in [ 'missing_2line',
+                                        'missing_pub_ref',
+                                        'missing_notes',
+                                        'parse_problems',
+                                        'obscode_problems',
+                                        'datetime_problems',
+                                        'radec_problems',
+                                        'ineligible_2line'] }
+
+    # Open file
+    # Do stream processing to allow for large files
+    # For each line in file, check for problems
+    prev_line = None
     with open(filepath,'r') as fh:
-        obs = fh.readlines()
+        for line in fh:
         
-    # (1) Missing pubn references
-    missing_pub_ref = _check_refs(obs)
+            # (0) Check 2-line obs for missing 2nd line
+            if prev_line is not None:
+                files_and_lists['missing_2line'].extend( _check_2line( prev_line, line ) )
+
+            # (1) Missing pubn references
+            files_and_lists['missing_pub_ref'].extend( _check_refs( line ) )
+            
+            # (2) Missing notes
+            # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
+            files_and_lists['missing_notes'].extend( _check_notes( line ) )
+                
+            # (3) bad obscodes (XXX, ...)
+            files_and_lists['obscode_problems'].extend( _check_obscode( line ) )
+
+            # (4) incorrect dates/times (min >= 60, dates >= 32, wtc)
+            files_and_lists['datetime_problems'].extend( _check_datetime( line ) )
+
+            # (5) Some kind of problem with the ra/dec values
+            files_and_lists['radec_problems'].extend( _check_radec( line ) )
+
+            # (6) Two line observations against wrong obs_code
+            files_and_lists['ineligible_2line'].extend( _check_ineligible_2line( line ) )
+
+            # (7) Will not parse using Sonia's obs80 code
+            files_and_lists['parse_problems'].extend( _check_o80parse( line ) )
     
-    # (2) Missing notes
-    # Sometimes we do not have "Note 2" before 2020 in obs80: replace blank with default ?
-    missing_notes = _check_notes(obs)
-        
-    # (3) bad obscodes (XXX, ...)
-    obscode_problems = _check_obscode(obs)
-
-    # (4) incorrect dates/times (min >= 60, dates >= 32, wtc)
-    datetime_problems = _check_datetime(obs)
-
-    # (5) Will not parse using Sonia's obs80 code
-    radec_problems = _check_radec(obs)
-
-    # (6) Will not parse using Sonia's obs80 code
-    parse_problems = _check_o80parse(obs)
-
-    # ... other problems we come across ...
+            # ... other problems we come across ...
     
     # write out the problems
-    for outfilename, obs_list in zip(
-                    ['missing_pub_ref','missing_notes','parse_problems', 'obscode_problems', 'datetime_problems','radec_problems'],
-                    [missing_pub_ref,   missing_notes,  parse_problems,   obscode_problems,   datetime_problems , radec_problems]
-                    ):
-        save_problems_to_file(save_dir , outfilename , obs_list , filepath)
+    for outfilename in files_and_lists:
+        save_problems_to_file(save_dir , outfilename , files_and_lists[outfilename] , filepath)
 
 
 def find_all(save_dir):
@@ -275,7 +288,6 @@ def find_all(save_dir):
     filepath_list = sorted(_get_filenames())
 
     # Process each file
-    # *** LIMITED TO ONE FILE WHILE DEVELOPING ***
     for filepath in filepath_list:
     
         # find the problems

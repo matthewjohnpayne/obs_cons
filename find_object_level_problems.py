@@ -97,7 +97,7 @@ def find_object_level_problems_in_one_file(filepath , save_dir):
             object_obs_dict[desig]=[]
         
         # append obs
-        object_obs_dict[desig].append(line)
+        object_obs_dict[desig].appsend(line)
         
     # Loop and fix ...
     missing_asterisk = []
