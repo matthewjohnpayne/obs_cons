@@ -10,14 +10,15 @@ def chunkify(filepath,size=1024*1024):
     fileEnd = os.path.getsize(filepath)
     with open(filepath,'r') as f:
         chunkEnd = f.tell()
-    while True:
-        chunkStart = chunkEnd
-        f.seek(size,1)
-        f.readline()
-        chunkEnd = f.tell()
-        yield chunkStart, chunkEnd - chunkStart
-        if chunkEnd > fileEnd:
-            break
+        
+        while True:
+            chunkStart = chunkEnd
+            f.seek(size,1)
+            f.readline()
+            chunkEnd = f.tell()
+            yield chunkStart, chunkEnd - chunkStart
+            if chunkEnd > fileEnd:
+                break
 
 def search_for_duplicates_within_single_file( filepath ):
     print('search_for_duplicates_within_single_file:',filepath)
