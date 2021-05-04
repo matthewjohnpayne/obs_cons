@@ -1,4 +1,4 @@
-import os, sys 
+import os, sys
 
 
 
@@ -44,5 +44,5 @@ if __name__ == '__main__':
     for _ in file_list:
         assert os.path.isfile(_), f'{_}: not a valid filepath'
         
-    search_all(  )
+    search_all( file_list )
 
