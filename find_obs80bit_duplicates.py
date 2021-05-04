@@ -8,7 +8,7 @@ def search_for_duplicates_within_chunk( lines ):
 def chunkify(filepath,size=1024*1024):
     ''' get start end end points of file chunks, taking care to split on newlines'''
     fileEnd = os.path.getsize(filepath)
-    with open(fname,'r') as f:
+    with open(filepath,'r') as f:
         chunkEnd = f.tell()
     while True:
         chunkStart = chunkEnd
