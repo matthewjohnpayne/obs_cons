@@ -35,12 +35,8 @@ def get_next_chunk_from_single_file( filepath , desired_len =int(1e7) ):
     
         while True :
         
-            # Get more lines from file
-            # Add to chunk
+            # Get some lines from file
             chunk_lines = list(islice(f, desired_len ))
-            
-            # Length ...
-            chunk_len     =
 
             # Decide next step based on lengths ...
             if chunk_lines:
