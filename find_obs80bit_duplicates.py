@@ -43,10 +43,11 @@ def get_next_chunk_from_single_file( filepath , desired_len ):
             
 def get_next_chunk_from_multiple_files( filepaths , desired_len):
 
+    print("\t get_next_chunk_from_multiple_files:")
+    
     chunk_len   = 0
     chunk_lines = []
     for filepath in filepaths:
-        print("\t get_next_chunk_from_multiple_files:", filepath)
         
         # generator to get next chunk from file
         gen         = get_next_chunk_from_single_file( filepath , desired_len - chunk_len  )
@@ -75,6 +76,7 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
     
 def search_for_duplicates( file_list ):
     print('search_for_duplicates')
+    print('sss\n'*123)
     
     assert file_list != [], 'You need to input a list of files'
         
