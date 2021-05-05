@@ -72,6 +72,8 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
     
     
 def search_for_duplicates( file_list ):
+    print('search_for_duplicates')
+    
     assert file_list != [], 'You need to input a list of files'
         
     # We are going to process chunks of *N* lines at once
@@ -83,6 +85,7 @@ def search_for_duplicates( file_list ):
 
     FINISHED = False
     while not FINISHED:
+        print('Looping within search_for_duplicates ... ')
         chunk_lines = next(gen)
         FINISHED    = True if len(chunk_lines) < desired_len else False
         print(len(chunk_lines) , '\n\t', chunk_lines[0], '\n\t', chunk_lines[-1])
