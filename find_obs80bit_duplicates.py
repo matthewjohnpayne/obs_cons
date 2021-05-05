@@ -27,9 +27,6 @@ def get_next_chunk_from_single_file( filepath , desired_len ):
 
     print('search_for_duplicates_within_single_file:',filepath)
     duplicate_dict = {}
-    
-    chunk_lines = []
-    current_len = 0
         
     with open(filepath,'r') as f:
     
@@ -38,28 +35,41 @@ def get_next_chunk_from_single_file( filepath , desired_len ):
             # Get some lines from file
             chunk_lines = list(islice(f, desired_len ))
 
-            # Decide next step based on lengths ...
+            # If anything comes back, then yield ...
             if chunk_lines:
-                yield chunk_lines
-                chunk_lines = []
-                current_len = 0
+                yield [ (filepath, _) for _ in chunk_lines ]
             else:
                 break
             
-def get_next_chunk_from_multiple_files( filepaths ):
+def get_next_chunk_from_multiple_files( filepaths , desired_len):
 
-    # generator to get next chunk from a file
-    desired_len = int(1e7)
-    gen         = get_next_chunk_from_single_file( filepaths[0] , desired_len)
+    chunk_len   = 0
+    chunk_lines = []
+    for filepath in filepaths:
+                
+        # generator to get next chunk from file
+        gen         = get_next_chunk_from_single_file( filepath , desired_len - chunk_len  )
+                
+        FILE_FINISHED = False
+        while not FILE_FINISHED:
+        
+            # extract a chunk from file
+            file_chunk_lines = next(gen)
+            
+            # extend master chunk
+            chunk_lines.extend( file_chunk_lines )
+            
+            # check whether this file is finished
+            FILE_FINISHED    = True if len(file_chunk_lines) < desired_len else False
+            
+            # yield if we already have enough data
+            if chunk_lines == desired_len:
+                yield chunk_lines
+                chunk_lines = []
+            
+    yield chunk_lines
+    break
     
-    FINISHED = False
-    while not FINISHED:
-        chunk_lines = next(gen)
-        FINISHED    = True if len(chunk_lines) < desired_len else False
-        print(len(chunk_lines))
-    
-def search_for_cross_file_duplicates():
-    pass
     
 def search_for_duplicates( file_list ):
     assert file_list != [], 'You need to input a list of files'
@@ -68,9 +78,16 @@ def search_for_duplicates( file_list ):
     # The *N* lines may come from one or many files
     # - We will read lines from one-or-more files until we have *N* lines in a chunk
     # We will look for duplicates that are either intra-chunk (inside) or inter-chunk (between)
-    get_next_chunk_from_multiple_files( file_list )
-        
+    desired_len = int(1e7)
+    gen         = get_next_chunk_from_multiple_files( filepath , desired_len )
+
+    FINISHED = False
+    while not FINISHED:
+        chunk_lines = next(gen)
+        FINISHED    = True if len(chunk_lines) < desired_len else False
+        print(len(chunk_lines) , '\n\t', chunk_lines[0], '\n\t', chunk_lines[-1])
     
+
 # command-line running ...
 #----------------------------------------------------
 if __name__ == '__main__':
