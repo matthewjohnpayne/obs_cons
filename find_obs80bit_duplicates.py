@@ -67,8 +67,7 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
                 yield chunk_lines
                 chunk_lines = []
             
-    yield chunk_lines
-    break
+    return chunk_lines
     
     
 def search_for_duplicates( file_list ):
