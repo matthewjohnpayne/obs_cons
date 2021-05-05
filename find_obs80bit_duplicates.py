@@ -78,7 +78,7 @@ def search_for_duplicates( file_list ):
     # - We will read lines from one-or-more files until we have *N* lines in a chunk
     # We will look for duplicates that are either intra-chunk (inside) or inter-chunk (between)
     desired_len = int(1e7)
-    gen         = get_next_chunk_from_multiple_files( filepath , desired_len )
+    gen         = get_next_chunk_from_multiple_files( file_list , desired_len )
 
     FINISHED = False
     while not FINISHED:
