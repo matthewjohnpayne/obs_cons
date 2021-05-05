@@ -52,7 +52,7 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
         # generator to get next chunk from file
         gen         = get_next_chunk_from_single_file( filepath , desired_len - chunk_len  )
                 
-        while not FILE_FINISHED:
+        while True:
         
             # extract a chunk from file
             file_chunk_lines = next(gen)
