@@ -25,7 +25,7 @@ def search_for_duplicates_within_chunk( lines ):
 
 def get_next_chunk_from_single_file( filepath , desired_len ):
 
-    print('\t\t\t get_next_chunk_from_single_file:',filepath)
+    print('\t\t\t get_next_chunk_from_single_file:',filepath, ' , desired_len=', desired_len)
     duplicate_dict = {}
         
     with open(filepath,'r') as f:
