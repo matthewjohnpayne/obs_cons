@@ -64,6 +64,7 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
             FILE_FINISHED    = True if len(file_chunk_lines) < desired_len else False
             
             # yield if we already have enough data
+            print('DEBUG', chunk_lines , desired_len, chunk_lines == desired_len)
             if chunk_lines == desired_len:
                 yield chunk_lines
                 chunk_lines = []
