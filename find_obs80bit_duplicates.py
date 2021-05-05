@@ -25,7 +25,7 @@ def search_for_duplicates_within_chunk( lines ):
 
 def get_next_chunk_from_single_file( filepath , desired_len ):
 
-    print('search_for_duplicates_within_single_file:',filepath)
+    print('\t\t\t get_next_chunk_from_single_file:',filepath)
     duplicate_dict = {}
         
     with open(filepath,'r') as f:
@@ -43,16 +43,15 @@ def get_next_chunk_from_single_file( filepath , desired_len ):
             
 def get_next_chunk_from_multiple_files( filepaths , desired_len):
 
-    print("\t get_next_chunk_from_multiple_files:")
+    print("get_next_chunk_from_multiple_files:")
     
     chunk_len   = 0
     chunk_lines = []
     for filepath in filepaths:
-        
+        print('\t', filepath)
         # generator to get next chunk from file
         gen         = get_next_chunk_from_single_file( filepath , desired_len - chunk_len  )
                 
-        FILE_FINISHED = False
         while not FILE_FINISHED:
         
             # extract a chunk from file
@@ -61,15 +60,15 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
             # extend master chunk
             chunk_lines.extend( file_chunk_lines )
             chunk_len = len(chunk_lines)
-            
-            # check whether this file is finished
-            FILE_FINISHED    = True if chunk_len < desired_len else False
-            
+                        
             # yield if we already have enough data
-            # print('DEBUG', chunk_len , desired_len, chunk_len == desired_len)
             if len(chunk_lines) >= desired_len:
+                print('\t\tDEBUG1', chunk_len , desired_len, chunk_len == desired_len)
                 yield chunk_lines
                 chunk_lines = []
+            else:
+                print('\t\tDEBUG2', chunk_len , desired_len, chunk_len == desired_len)
+                break
             
     return chunk_lines
     
