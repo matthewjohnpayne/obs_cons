@@ -65,7 +65,7 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
             FILE_FINISHED    = True if chunk_len < desired_len else False
             
             # yield if we already have enough data
-            print('DEBUG', chunk_len , desired_len, chunk_len == desired_len)
+            # print('DEBUG', chunk_len , desired_len, chunk_len == desired_len)
             if len(chunk_lines) >= desired_len:
                 yield chunk_lines
                 chunk_lines = []
@@ -90,7 +90,7 @@ def search_for_duplicates( file_list ):
         print('Looping within search_for_duplicates ... ')
         chunk_lines = next(gen)
         FINISHED    = True if len(chunk_lines) < desired_len else False
-        print(len(chunk_lines) , '\n\t', chunk_lines[0], '\n\t', chunk_lines[-1])
+        #print(len(chunk_lines) , '\n\t', chunk_lines[0], '\n\t', chunk_lines[-1])
     
 
 # command-line running ...
