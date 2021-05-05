@@ -91,7 +91,7 @@ def search_for_duplicates( file_list ):
     while not FINISHED:
         print('Looping within search_for_duplicates ... ')
         chunk_lines = next(gen)
-        FINISHED    = True if len(chunk_lines) < desired_len else False
+        #FINISHED    = True if len(chunk_lines) < desired_len else False
         #print(len(chunk_lines) , '\n\t', chunk_lines[0], '\n\t', chunk_lines[-1])
     
 
