@@ -59,13 +59,14 @@ def get_next_chunk_from_multiple_files( filepaths , desired_len):
             
             # extend master chunk
             chunk_lines.extend( file_chunk_lines )
+            chunk_len = len(chunk_lines)
             
             # check whether this file is finished
-            FILE_FINISHED    = True if len(file_chunk_lines) < desired_len else False
+            FILE_FINISHED    = True if chunk_len < desired_len else False
             
             # yield if we already have enough data
-            print('DEBUG', len(chunk_lines) , desired_len, len(chunk_lines) == desired_len)
-            if len(chunk_lines) == desired_len:
+            print('DEBUG', chunk_len , desired_len, chunk_len == desired_len)
+            if len(chunk_lines) >= desired_len:
                 yield chunk_lines
                 chunk_lines = []
             
