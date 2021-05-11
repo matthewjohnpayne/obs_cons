@@ -179,6 +179,7 @@ def _check_radec(obs80str):
             SUCCESS = False
             
             print('Exception = ',e)
+            print(obs80str)
             # extract ra, dec strings
             ra, dec = obs80str[32:44], obs80str[44:56]
             
