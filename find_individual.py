@@ -243,7 +243,7 @@ formatobs_data = '''
 allowed_MagBand = { _ : True for _ in ['B', 'V', 'R','I', 'J','W', 'U', 'G', 'g', 'r', 'i', 'w', 'y', 'z','o','c']}
 print('allowed_MagBand' , allowed_MagBand)
 formatobs_data = [_.split('=')[1].strip().strip('"')  for _ in formatobs_data if 'T1' in _ and 'T12' not in _ and '=' in _ and 'CASE' not in _ ]
-FS_additions   = [_[0] for _ in FS_additions]
+#FS_additions   = [_[0] for _ in FS_additions]
 print('formatobs_data' , formatobs_data)
 print('FS_additions' , FS_additions)
 
