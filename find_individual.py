@@ -44,7 +44,7 @@ def _get_numbered_filenames():
 
     # ------------ NUMBERED FILES ------------------
     # Primary, published files
-    files_ = [_ for _ in glob.glob(f'/sa/mpn/N*dat', recursive=True) if _ not in filenames_to_ignore]
+    files_ = [_ for _ in glob.glob(f'/sa/mpn/NN0000011*dat', recursive=True) if _ not in filenames_to_ignore]
     
     # In-progress ( between monthly pubs) files are in different location ...
     # E.g. "tot.num", "pending.num", ..., ...
@@ -134,6 +134,8 @@ def _check_datetime(obs80str):
         except:
             SUCCESS = False
 
+    if not SUCCESS:
+        print(obs80str , )
     return [obs80str] if not SUCCESS else []
     
 
