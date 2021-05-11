@@ -138,6 +138,7 @@ def _check_datetime(obs80str):
     return [obs80str] if not SUCCESS else []
     
 
+
 def _check_radec(obs80str):
     ''' Look for obvious problems with ra/dec
     E.g. mins/secs that are > 60 
@@ -147,67 +148,19 @@ def _check_radec(obs80str):
     if obs80str[14] not in ['s','v','r','R']:
         try:
             # extract ra, dec strings
-            ra, dec = obs80str[32:44], obs80str[44:56]
+            ra_hr, dec_deg = obs80.RA2hrRA(obs80str[32:44]), obs80.Dec2degDec(obs80str[44:56])
             
-            # get ra, dec floats
-            ra_hr   = float(ra[0:2])
-            dec_deg = float(dec[1:3])
-            
-            ra_mn = float(ra[3:5])
-            try:
-                ra_sec = float(ra[6:])
-            except ValueError:
-                ra_sec = 0
-
-            dec_mn = float(dec[4:6])
-            try:
-                dec_sec = float(dec[7:])
-            except ValueError:
-                dec_sec = 0
-
             # check values ...
             assert ra_hr < 24.0
             assert dec_deg > -90. and dec_deg < 90.
             
-            assert ra_mn   < 60.0
-            assert ra_sec  < 60.0
-            assert dec_mn  < 60.0
-            assert dec_sec < 60.0
-
             SUCCESS = True
         except Exception as e:
             SUCCESS = False
             
             print('Exception = ',e)
             print(obs80str)
-            # extract ra, dec strings
-            ra, dec = obs80str[32:44], obs80str[44:56]
-            
-            # get ra, dec floats
-            ra_hr   = float(ra[0:2])
-            dec_deg = float(dec[1:3])
-            
-            ra_mn = float(ra[3:5])
-            try:
-                ra_sec = float(ra[6:])
-            except ValueError:
-                ra_sec = 0
-
-            dec_mn = float(dec[4:6])
-            try:
-                dec_sec = float(dec[7:])
-            except ValueError:
-                dec_sec = 0
-
-            # check values ...
-            assert ra_hr < 24.0
-            assert dec_deg > -90. and dec_deg < 90.
-            
-            assert ra_mn   < 60.0, f'ra_mn={ra_mn}'
-            assert ra_sec  < 60.0, f'ra_sec={ra_sec}'
-            assert dec_mn  < 60.0, f'dec_mn={dec_mn}'
-            assert dec_sec < 60.0, f'dec_sec={dec_sec}'
-
+ 
     if not SUCCESS:
         print(obs80str, ra)
     return [obs80str] if not SUCCESS else []
