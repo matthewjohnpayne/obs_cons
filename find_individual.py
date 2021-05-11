@@ -202,10 +202,10 @@ def _check_radec(obs80str):
             assert ra_hr < 24.0
             assert dec_deg > -90. and dec_deg < 90.
             
-            assert ra_mn   < 60.0
-            assert ra_sec  < 60.0
-            assert dec_mn  < 60.0
-            assert dec_sec < 60.0
+            assert ra_mn   < 60.0, f'ra_mn={ra_mn}'
+            assert ra_sec  < 60.0, f'ra_sec={ra_sec}'
+            assert dec_mn  < 60.0, f'dec_mn={dec_mn}'
+            assert dec_sec < 60.0, f'dec_sec={dec_sec}'
 
     if not SUCCESS:
         print(obs80str, ra)
