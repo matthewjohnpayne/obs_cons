@@ -78,12 +78,12 @@ print('allowed_AstCat' , allowed_AstCat)
 '''
 #
 # (4) From Federica
-'''
+FS_additions = '''
 W    Gaia-DR3
 X    Gaia-EDR3
 Y    UCAC-5
 Z    ATLAS-2
-'''
+'''.split('\n')
 #
 # (5) In formatobs.f90 (instructinos from MR)
 formatobs_data = '''
@@ -236,14 +236,16 @@ formatobs_data = '''
       T12A = " "
       T1 = " "
 '''.split('\n')
+#
 # Summary: Given the above, for now I am ussing the following is the list of allowed single-character mag-band codes
 # Not at all sure this is complete
 # Not sure whether we check the single mag-band stuff anywhere in (e.g.) autoack/processobs
 allowed_MagBand = { _ : True for _ in ['B', 'V', 'R','I', 'J','W', 'U', 'G', 'g', 'r', 'i', 'w', 'y', 'z','o','c']}
 print('allowed_MagBand' , allowed_MagBand)
 formatobs_data = [_.split('=')[1].strip().strip('"')  for _ in formatobs_data if 'T1' in _ and 'T12' not in _ and '=' in _ and 'CASE' not in _ ]
-
+FS_additions   = [_[0] for _ in FS_additions]
 print('formatobs_data' , formatobs_data)
+print('FS_additions' , FS_additions)
 
 sys.exit()
 
