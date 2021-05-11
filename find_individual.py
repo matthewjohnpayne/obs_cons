@@ -134,8 +134,7 @@ def _check_datetime(obs80str):
         except:
             SUCCESS = False
 
-    if not SUCCESS:
-        print(obs80str , )
+    
     return [obs80str] if not SUCCESS else []
     
 
@@ -180,6 +179,8 @@ def _check_radec(obs80str):
         except:
             SUCCESS = False
 
+    if not SUCCESS:
+        print(obs80str, ra)
     return [obs80str] if not SUCCESS else []
 
 def _check_2line( line1, line2 ):
