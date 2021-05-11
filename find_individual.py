@@ -31,7 +31,9 @@ with open ('/sa/god_fit/lib/catalogue.txt' , 'r') as fh:
     allowed_AstCat = { _[:5].strip() : True for _ in fh.readlines() }
 print('allowed_AstCat' , allowed_AstCat)
 
+
 # allowed Mag0-Band values
+# -------------------------------------------------------------------------------------------
 # (1) Copied from here: https://www.minorplanetcenter.net/iau/info/OpticalObs.html
 # 'B', 'V', 'R','I', 'J','W', 'U', 'g', 'r', 'i', 'w', 'y', 'z'
 # Almost certainly INCOMPLETE!!!
@@ -237,26 +239,21 @@ formatobs_data = '''
       T1 = " "
 '''.split('\n')
 #
-# Summary: Given the above, for now I am ussing the following is the list of allowed single-character mag-band codes
-# Not at all sure this is complete
-# Not sure whether we check the single mag-band stuff anywhere in (e.g.) autoack/processobs
-formatobs_data = [_.split('=')[1].strip().strip('"')  for _ in formatobs_data if 'T1' in _ and 'T12' not in _ and '=' in _ and 'CASE' not in _ ]
-FS_additions   = [_[0] for _ in FS_additions if len(_)]
-
+# Summary: Given the above, for now I am using the following as the list of allowed single-character mag-band codes
+# (a) Start with the stuff from the website
 allowed_MagBand = { _ : True for _ in ['B', 'V', 'R','I', 'J','W', 'U', 'G', 'g', 'r', 'i', 'w', 'y', 'z','o','c']}
+# (b) Explicitly add all of the stuff from formatobs
+formatobs_data = [_.split('=')[1].strip().strip('"')  for _ in formatobs_data if 'T1' in _ and 'T12' not in _ and '=' in _ and 'CASE' not in _ ]
 for _ in formatobs_data:
     if _ not in allowed_MagBand:
         allowed_MagBand[_]=True
+# (c) Explicitly add all of the stuff from Federica
+FS_additions   = [_[0] for _ in FS_additions if len(_)]
 for _ in FS_additions:
     if _ not in allowed_MagBand:
         allowed_MagBand[_]=True
+# -------------------------------------------------------------------------------------------
 
-print('allowed_MagBand' , allowed_MagBand)
-print()
-print('formatobs_data' , formatobs_data)
-print('FS_additions' , FS_additions)
-
-sys.exit()
 
 
 
