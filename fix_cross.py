@@ -123,46 +123,7 @@ def find_duplicates(obs_dict):
         print()
     
     
-    '''
-    # Trying to parallelize, but seems v. slow
-    name_pairs = []
-    for i in range(len(fps)):
-        for j in range(i+1,len(fps)):
-            name_pairs.append( (fps[i], fps[j] ) )
-    results = Parallel(n_jobs=8)(delayed(intersecn_func)(obs_dict[name_pair[0]],obs_dict[name_pair[1]]) for name_pair in name_pairs)
-    for _ in results:
-        print(_)
-        for k,v in _.items():
-            DUP[k].extend(v)
-    print(f'\n N_Dup= {len(DUP)}')
-    '''
-    
-    
-    
 
-    '''
-    for fp, fp_dict in obs_dict.items():
-        print('.', end='', flush=True )
-
-        # intersecn indicates duplicate obs80-bits
-        intersecn = fp_dict.keys() & ALL.keys()
-
-        # store duplicates with list of file-paths
-        for k in intersecn:
-            DUP[k].append(fp_dict[k])
-            if isinstance(ALL[k], str):
-                DUP[k].append(ALL[k])
-            else:
-                DUP[k].extend(ALL[k])
-                
-        # update the overall dictionary with local data
-        ALL.update(fp_dict)
-        
-        # update the overall dictionary with the duplicates
-        ALL.update(DUP)
-    
-    print(f'\n N_All= {len(ALL)}, N_Dup= {len(DUP)}')
-    '''
     del ALL
     return DUP
 
@@ -295,18 +256,30 @@ def decide_how_to_fix(line_list):
 
     if len( [ _ for _ in line_list if "/sa/mpu/u" in _] ):
         # This is a lowercase file: ignore
+        # *** MJP:2021-05-11: I don't remember why I wanted to ignore lower-case filenames ... typo?duplicates?temporary?...***
         discard, keep, notfixed = [],[],[]
+        
     elif len(line_list) == 2:
         line1, line2 = line_list[0], line_list[1]
         obs1, obs2   = line1.split(",")[2], line2.split(",")[2]
         f1, f2       = line1.split(",")[3], line2.split(",")[3]
         prov1,prov2  = obs1[5:12].strip(),obs2[5:12].strip()
+        ast1,ast2    = obs1[12],obs2[12]
+        N2_1,N2_2    = obs1[14],obs2[14]
+
+        # If we have the case where there is an asterisk & a "X" in one of the pair, then keep both
+        # - This is the stupid case where we are not really keeping it with the object, but we are for the sake of discovery.
+        # - Are something stupid like that.
+        if (ast1=='*' and N2_1.upper()=='X' and ast2!='*' and N2_1.upper()!='X') or (ast1!='*' and N2_1.upper()!='X' and ast2=='*' and N2_1.upper()=='X'):
+            discard, keep, notfixed = [], line_list, []
 
         # if one of the provIDs is in the later part of the other, that implies a redesignation
-        if   prov1 != '' and prov1 in obs2[50:]:
+        elif prov1 != '' and prov1 in obs2[50:]:
             discard, keep, notfixed = [f'{obs1},{f1}'], [f'{obs2},{f2}'], []
         elif prov2 != '' and prov2 in obs1[50:]:
             discard, keep, notfixed = [f'{obs2},{f2}'], [f'{obs1},{f1}'], []
+            
+        # if we get to here, then we don;'t know how to fix ...
         else:
             discard, keep, notfixed = [],[],line_list
 
