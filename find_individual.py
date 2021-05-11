@@ -144,7 +144,7 @@ def _check_radec(obs80str):
     '''
     # Boolean for pass/fail
     SUCCESS = True
-
+    print()
     if obs80str[14] not in ['s','v','r','R']:
         try:
             # extract ra, dec strings
@@ -176,8 +176,9 @@ def _check_radec(obs80str):
             assert dec_sec < 60.0
 
             SUCCESS = True
-        except:
+        except Exception as e:
             SUCCESS = False
+            print(e)
 
     if not SUCCESS:
         print(obs80str, ra)
