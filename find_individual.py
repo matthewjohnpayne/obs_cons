@@ -26,6 +26,19 @@ with open('/sa/data/obscode.dat', 'r') as fh:
 # obs-codes that are allowed 2-lines
 allowed_2line = { _ : True for _ in ['244', '245', '247','248','249', '250', '258', '500', 'C49','C50','C51','C52','C53','C54','C55', 'C56', 'C57', '251', '252', '253', '254', '255', '256' , '257' ] }
 
+# allowed Ast-Cat values
+with open ('/sa/god_fit/lib/catalogue.txt' , 'r') as fh:
+    allowed_AstCat = { _[:5].strip() : True for _ in fh.readlines() }
+print('allowed_AstCat' , allowed_AstCat)
+sys.exit()
+# allowed Mag0-Band values
+allowed_MagBand = { _ : True for _ in []}
+
+
+
+
+
+
 # Functions to *FIND*  individual problems ...
 #----------------------------------------------------
 def _get_filenames():
@@ -179,6 +192,14 @@ def _check_ineligible_2line( obs80str ):
     # If obs-code not in allowed list, then treat as problem
     return [obs80str] if obs80str[14] in 'srvSRV' and obs80str[77:80] not in allowed_2line else []
 
+def _check_ineligible_AstCat( obs80str ):
+    ''' Look for AstCat (astrometric catalog) values that are not allowed'''
+    return [obs80str] if obs80str[14] in 'srvSRV' and obs80str[77:80] not in allowed_AstCat else []
+
+def _check_ineligible_MagBand( obs80str ):
+    ''' Look for MagBand (magnitude bandpass) values that are not allowed'''
+    return [obs80str] if obs80str[14] in 'srvSRV' and obs80str[77:80] not in allowed_MagBand else []
+
 
 def _check_o80parse(obs80str):
     '''
@@ -221,7 +242,9 @@ def find_individual_problems_in_one_file(filepath , save_dir):
                                         'obscode_problems',
                                         'datetime_problems',
                                         'radec_problems',
-                                        'ineligible_2line'] }
+                                        'ineligible_2line',
+                                        'ineligible_AstCat',
+                                        'ineligible_MagBand'] }
 
     # Open file
     # Do stream processing to allow for large files
@@ -252,8 +275,14 @@ def find_individual_problems_in_one_file(filepath , save_dir):
 
             # (6) Two line observations against wrong obs_code
             files_and_lists['ineligible_2line'].extend( _check_ineligible_2line( line ) )
+            
+            # (7) Look for ineligible Ast-Cat
+            files_and_lists['ineligible_AstCat'].extend( _check_ineligible_AstCat( line ) )
 
-            # (7) Will not parse using Sonia's obs80 code
+            # (8) Look for ineligible Mag-Band
+            files_and_lists['ineligible_MagBand'].extend( _check_ineligible_MagBand( line ) )
+
+            # (9) Will not parse using Sonia's obs80 code
             files_and_lists['parse_problems'].extend( _check_o80parse( line ) )
     
             # ... other problems we come across ...
