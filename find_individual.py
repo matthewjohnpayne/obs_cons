@@ -178,7 +178,7 @@ def _check_radec(obs80str):
         except Exception as e:
             SUCCESS = False
             print()
-            print(e)
+            print('Exception = ',e)
 
     if not SUCCESS:
         print(obs80str, ra)
