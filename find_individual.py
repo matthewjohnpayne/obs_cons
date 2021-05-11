@@ -33,7 +33,7 @@ def _get_filenames():
     
     # Get filenames for num & unnum observations
     files_ = _get_numbered_filenames()
-    files_.extend(_get_unnumbered_filenames())
+    #files_.extend(_get_unnumbered_filenames())
     
     return files_
     
@@ -44,8 +44,8 @@ def _get_numbered_filenames():
 
     # ------------ NUMBERED FILES ------------------
     # Primary, published files
-    files_ = [_ for _ in glob.glob(f'/sa/mpn/NN0000011*dat', recursive=True) if _ not in filenames_to_ignore]
-    
+    files_ = [_ for _ in glob.glob(f'/sa/mpn/N0000011*dat', recursive=True) if _ not in filenames_to_ignore]
+    print("files_=", files_)
     # In-progress ( between monthly pubs) files are in different location ...
     # E.g. "tot.num", "pending.num", ..., ...
     #files_.extend( [_ for _ in glob.glob(f'/sa/obs/*num', recursive=True) if _ not in filenames_to_ignore] )
