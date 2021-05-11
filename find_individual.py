@@ -160,6 +160,7 @@ def _check_radec(obs80str):
             
             print('Exception = ',e)
             print(obs80str)
+            print(obs80.RA2hrRA(obs80str[32:44]), obs80.Dec2degDec(obs80str[44:56]))
  
     return [obs80str] if not SUCCESS else []
 
