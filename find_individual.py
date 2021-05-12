@@ -419,7 +419,7 @@ def _check_ineligible_AstCat( obs80str ):
 
 def _check_ineligible_MagBand( obs80str ):
     ''' Look for MagBand (magnitude bandpass) values that are not allowed'''
-    return [obs80str] if obs80str[14] in 'srvSRV' and obs80str[77:80] not in allowed_MagBand else []
+    return [obs80str] if obs80str[70] in 'srvSRV' and obs80str[77:80] not in allowed_MagBand else []
 
 
 def _check_o80parse(obs80str):
