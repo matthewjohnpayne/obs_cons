@@ -112,7 +112,7 @@ def update_strs(ff_obs80, db_obs80, ff_replacement_section, db_replacement_secti
     MJP: 2021-05-25
     Utility function to update the sections of the ff & db strings
     '''
-    if ff_str is not None and db_str is not None:
+    if ff_replacement_section is not None and db_replacement_section is not None:
         ff_obs80 = update_str( ff_obs80, ff_replacement_section, r1,r2 )
         db_obs80 = update_str( db_obs80, db_replacement_section, r1,r2 )
     return ff_obs80, db_obs80
