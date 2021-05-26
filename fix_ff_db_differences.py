@@ -71,7 +71,9 @@ def process_file(filepath):
                 ff_replacement_substr , db_replacement_substr    = fix_note1( ff_obs80[r1:r2] , db_obs80[r1:r2] )
                 # ... update the strings
                 ff_obs80, db_obs80 = update_strs(ff_obs80, db_obs80, ff_replacement_substr , db_replacement_substr, r1, r2)
-
+                print(ff_obs80)
+                print(db_obs80)
+                print(diff)
             '''
             *** OTHER PEOPLE'S CODE TO BE DROPPED IN HERE ***
             
@@ -182,7 +184,9 @@ def fix_note1(ff_str, db_str):
     # If we see anything else, raise an error?
     else:
         pass
-    
+    print('ffOUT:',ff_str_out)
+    print('dbOUT:',db_str_out)
+
     return ff_str_out, db_str_out
 
 
