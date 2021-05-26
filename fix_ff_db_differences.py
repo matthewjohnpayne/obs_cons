@@ -57,7 +57,6 @@ def process_file(filepath):
             
             # fix asterisk ( NB @posn 12 in python notation, so we extract [12:13] )
             r1, r2 = 12, 13
-            print(diff, ':', list(set(diff) & set(range(r1,r2))) )
             if list(set(diff) & set(range(r1,r2))):
                 print(12, 'asterisk...')
                 # get the strings that we want to exist at this location ...
