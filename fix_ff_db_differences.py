@@ -88,21 +88,22 @@ def process_file(filepath):
             '''
             
             # after all fixes have been done to the strings ...
-            # ... print out to file and changes that need to be made ...
-            # NB: Only printing if everything is fixed...
+            # (1) Print to screen if ANY changes have been made to EITHER ff or db strings
+            if ff_obs80 != ff_line[5:].strip('\n') or db_obs80 != db_line[5:].strip('\n'):
+                print('BEFORE')
+                print(ff_line[5:].strip('\n'))
+                print(db_line[5:].strip('\n'))
+                print(diff_line[5:].strip('\n'))
+                FLAG = 'FIXED' if ff_obs80 == db_obs80 else 'NOT (COMPLETELY) FIXED'
+                print('AFTER')
+                print(ff_obs80, FLAG)
+                print(db_obs80, FLAG)
+            # (2) Write to file if EVERYTHING is fixed...
             if ff_obs80 == db_obs80:
                 if ff_obs80 != ff_line[5:].strip('\n'):
                     ff_out.write(ff_obs80)
                 if db_obs80 != db_line[5:].strip('\n'):
                     db_out.write(ff_obs80)
-            else:
-                pass
-                '''
-                print("Not (completely) fixed...")
-                print(ff_obs80)
-                print(db_obs80)
-                print(diff_line[5:].strip('\n'))
-                '''
 
 # -----------------------------------------------------------------
 # Convenience functions for string replacement
