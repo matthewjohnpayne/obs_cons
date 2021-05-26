@@ -135,6 +135,7 @@ def fix_asterisk(ff_str, db_str):
     Function to fix the asterisk field in an obs80 string
     Compare the string from the flat-file to the string from the database
     '''
+    # Default
     ff_str_out , db_str_out = None, None
     print('fix_asterisk')
     print('ffIN:',ff_str)
@@ -162,7 +163,9 @@ def fix_note1(ff_str, db_str):
     Function to fix the note1 field in an obs80 string
     Compare the string from the flat-file to the string from the database
     '''
-    
+    # Default
+    ff_str_out , db_str_out = None, None
+
     # If flat-file has note and the db doesn't:
     # (1) Assume the flat-file is correct, & (2) Correct the database
     if ff_str == '*' and db_str == ' ':
