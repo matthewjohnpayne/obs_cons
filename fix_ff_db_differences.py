@@ -39,16 +39,17 @@ def process_file(filepath):
     Note that I am deliberately "fixing the obs80 string as I go along":
      - I.e. the functions operate sequentially on the obs80 string, so more and more changes can take place
     '''
-    # File we will use to hold output
+    # Files we will use to hold output
+    # Anything written to these files implies changes need to be made to the flat-files and database respectively
     with open('ff_db_differences_FLATFILE_FIXES.txt','w') as ff_out, open('ff_db_differences_DATABASE_FIXES.txt','w') as db_out :
     
         # Loop through three line chunks ...
         for ff_line, db_line, diff_line in triple_line_sets(filepath):
             
-            # Strip off the first 5 characters of the obs80 lines
+            # Strip off the first 5 characters of the lines, leaving us with the actual obs80 lines
             ff_obs80 , db_obs80 = ff_line[5:].strip('\n'), db_line[5:].strip('\n')
             
-            # Find the locations of the "^" characters
+            # Find the locations of the "^" characters in the DIFF lines
             diff = diff_line[5:].strip('\n')
             diff = [i for i in range(len(diff)) if diff.startswith('^', i)]
 
@@ -87,6 +88,7 @@ def process_file(filepath):
             
             # after all fixes have been done to the strings ...
             # (1) Print to screen if ANY changes have been made to EITHER ff or db strings
+            #     (Here I am comparing the altered strings to the original strings)
             if ff_obs80 != ff_line[5:].strip('\n') or db_obs80 != db_line[5:].strip('\n'):
                 print('\n','-'*33)
                 print('BEFORE')
@@ -99,8 +101,10 @@ def process_file(filepath):
                 print(db_obs80, FLAG)
             # (2) Write to file if EVERYTHING is fixed...
             if ff_obs80 == db_obs80:
+                # Anything written to this file implies changes to the flat-file need to be made
                 if ff_obs80 != ff_line[5:].strip('\n'):
                     ff_out.write(ff_obs80)
+                # Anything written to this file implies changes to the database need to be made
                 if db_obs80 != db_line[5:].strip('\n'):
                     db_out.write(ff_obs80)
 
