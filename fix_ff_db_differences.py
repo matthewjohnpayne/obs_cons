@@ -58,6 +58,7 @@ def process_file(filepath):
             # fix asterisk
             r1, r2 = 12, 12
             if list(set(diff) & set(range(r1,r2))):
+                print(12, 'asterisk...')
                 # get the strings that we want to exist at this location ...
                 ff_replacement_substr , db_replacement_substr = fix_asterisk( ff_obs80[r1:r2] , db_obs80[r1:r2] )
                 # ... update the strings
