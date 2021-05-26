@@ -168,13 +168,18 @@ def fix_note1(ff_str, db_str):
 
     # If flat-file has note and the db doesn't:
     # (1) Assume the flat-file is correct, & (2) Correct the database
-    if ff_str == '*' and db_str == ' ':
+    if ff_str != ' ' and db_str == ' ':
         ff_str_out = db_str_out = ff_str
 
-    # If flat-file does not have an asterisk, but the db does
-    # *** NEED TO DECIDE WHAT TO DO
-    elif ff_str == ' ' and db_str == '*':
-        pass
+    # If flat-file & db both have a note but it's different
+    # CHOOSE THE FLAT-FILE ONE BASED ON THE "DEFAULT TO THE FLAT-FILE" LOGIC
+    elif ff_str != ' ' and db_str != ' ' and ff_str != db_str:
+        ff_str_out = db_str_out = ff_str
+
+    # If flat-file has NO note and the db has a note:
+    # (1) Assume the db is correct, & (2) Correct the flat-file
+    if ff_str == ' ' and db_str != ' ':
+        ff_str_out = db_str_out = db_str
 
     # If we see anything else, raise an error?
     else:
