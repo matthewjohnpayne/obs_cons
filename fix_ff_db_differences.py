@@ -162,9 +162,7 @@ def fix_note1(ff_str, db_str):
     '''
     # Default
     ff_str_out , db_str_out = None, None
-    print('fix_note1')
-    print('ffIN:',ff_str)
-    print('dbIN:',db_str)
+
     # If flat-file has note and the db doesn't:
     # (1) Assume the flat-file is correct, & (2) Correct the database
     if ff_str != ' ' and db_str == ' ':
@@ -183,8 +181,7 @@ def fix_note1(ff_str, db_str):
     # If we see anything else, raise an error?
     else:
         pass
-    print('ffOUT:',ff_str_out)
-    print('dbOUT:',db_str_out)
+
 
     return ff_str_out, db_str_out
 
