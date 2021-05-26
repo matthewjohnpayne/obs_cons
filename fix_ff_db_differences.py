@@ -51,7 +51,7 @@ def process_file(filepath):
             # Find the locations of the "^" characters
             diff = diff_line[5:].strip('\n')
             diff = [i for i in range(len(diff)) if diff.startswith('^', i)]
-            print(diff)
+            print(diff, ':', list(set(diff) & set(range(r1,r2))) )
             # Use locations of the "^" characters to decide on what fixing functions to call
             # In particular, we will find the intersection of "diff" with predefined-ranges
             
