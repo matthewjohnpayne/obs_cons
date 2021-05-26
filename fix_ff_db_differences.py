@@ -136,7 +136,9 @@ def fix_asterisk(ff_str, db_str):
     Compare the string from the flat-file to the string from the database
     '''
     ff_str_out , db_str_out = None, None
-    print('fix_asterisk',ff_str, db_str)
+    print('fix_asterisk')
+    print('ffIN:',ff_str)
+    print('dbIN:',db_str)
     # If flat-file has asterisk and the db doesn't: Assume the input flat-file is correct
     if ff_str == '*' and db_str == ' ':
         ff_str_out = db_str_out = ff_str
@@ -150,6 +152,8 @@ def fix_asterisk(ff_str, db_str):
     else:
         pass
         
+    print('ffOUT:',ff_str_out)
+    print('dbOUT:',db_str_out)
     return ff_str_out, db_str_out
     
 def fix_note1(ff_str, db_str):
