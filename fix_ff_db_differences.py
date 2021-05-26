@@ -55,8 +55,8 @@ def process_file(filepath):
             # Use locations of the "^" characters to decide on what fixing functions to call
             # In particular, we will find the intersection of "diff" with predefined-ranges
             
-            # fix asterisk
-            r1, r2 = 12, 12
+            # fix asterisk ( NB @posn 12 in python notation, so we extract [12:13] )
+            r1, r2 = 12, 13
             print(diff, ':', list(set(diff) & set(range(r1,r2))) )
             if list(set(diff) & set(range(r1,r2))):
                 print(12, 'asterisk...')
@@ -65,8 +65,8 @@ def process_file(filepath):
                 # ... update the strings
                 ff_obs80, db_obs80 = update_strs(ff_obs80, db_obs80, ff_replacement_substr , db_replacement_substr, r1, r2)
                 
-            # fix note1
-            r1, r2 = 13, 13
+            # fix note1 ( NB @posn 13 in python notation, so we extract [13:14] )
+            r1, r2 = 13, 14
             if list(set(diff) & set(range(r1,r2))):
                 # get the strings that we want to exist at this location ...
                 ff_replacement_substr , db_replacement_substr    = fix_note1( ff_obs80[r1:r2] , db_obs80[r1:r2] )
