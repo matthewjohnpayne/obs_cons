@@ -88,7 +88,7 @@ def process_file(filepath):
             # after all fixes have been done to the strings ...
             # (1) Print to screen if ANY changes have been made to EITHER ff or db strings
             if ff_obs80 != ff_line[5:].strip('\n') or db_obs80 != db_line[5:].strip('\n'):
-                print('\nBEFORE')
+                print('\n','-'*33,BEFORE')
                 print(ff_line[5:].strip('\n'))
                 print(db_line[5:].strip('\n'))
                 print(diff_line[5:].strip('\n'))
