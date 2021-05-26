@@ -93,10 +93,13 @@ def process_file(filepath):
                 if db_obs80 != db_line[5:].strip('\n'):
                     db_out.write(ff_obs80)
             else:
+                pass
+                '''
                 print("Not (completely) fixed...")
                 print(ff_obs80)
                 print(db_obs80)
                 print(diff_line[5:].strip('\n'))
+                '''
 
 # -----------------------------------------------------------------
 # Convenience functions for string replacement
@@ -132,7 +135,7 @@ def fix_asterisk(ff_str, db_str):
     Compare the string from the flat-file to the string from the database
     '''
     ff_str_out , db_str_out = None, None
-    
+    print('fix_asterisk',ff_str, db_str)
     # If flat-file has asterisk and the db doesn't: Assume the input flat-file is correct
     if ff_str == '*' and db_str == ' ':
         ff_str_out = db_str_out = ff_str
