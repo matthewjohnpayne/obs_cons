@@ -146,7 +146,7 @@ def fix_asterisk(ff_str, db_str):
     else:
         pass
         
-    return ff_str_out = db_str_out
+    return ff_str_out, db_str_out
     
 def fix_note1(ff_str, db_str):
     '''
@@ -169,7 +169,7 @@ def fix_note1(ff_str, db_str):
     else:
         pass
     
-    return ff_str_out = db_str_out
+    return ff_str_out, db_str_out
 
 
 if __name__ == '__main__':
